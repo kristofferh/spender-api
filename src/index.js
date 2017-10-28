@@ -5,18 +5,14 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import graphqlHTTP from "express-graphql";
-import { Sequelize } from "sequelize";
 
-import db from "./config/db.js";
+import models from "./models";
 
 // Load .env variables
 config();
-const env = process.env.NODE_ENV || "development";
 
 // Create express server
 const server = express();
-
-const dbConfig = db[env];
 
 // Enable CORS
 server.use(cors());
@@ -41,19 +37,24 @@ server.use(morgan("tiny"));
 //   }))
 // );
 
-// Create new database connection
-const connection = new Sequelize(
-  dbConfig.database,
-  dbConfig.username,
-  dbConfig.password,
-  { ...dbConfig, operatorsAliases: Sequelize.Op }
-);
-
-connection
-  .authenticate()
+// Create tables
+models.sequelize
+  .sync({})
   .then(() => {
-    console.info("INFO - Database connected.");
+    console.info("INFO - Database sync complete.");
+
+    console.info("SETUP - Starting server...");
+
+    // Start web server
+    server.listen(config.port, error => {
+      if (error) {
+        console.error("ERROR - Unable to start server.");
+      } else {
+        console.info(`INFO - Server started on port ${config.port}.`);
+      }
+    });
   })
-  .catch(err => {
-    console.error("ERROR - Unable to connect to the database:", err);
+  .catch(() => {
+    console.error("ERROR - Unable to sync database.");
+    console.error("ERROR - Server not started.");
   });
