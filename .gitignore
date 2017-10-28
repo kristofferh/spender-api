@@ -1,5 +1,6 @@
 # Misc.
 *.sublime-workspace
+dist
 
 # Logs
 logs
