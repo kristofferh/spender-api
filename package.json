@@ -1,0 +1,15 @@
+{
+  "name": "framework-api",
+  "version": "0.0.1",
+  "description": "Framework starter API",
+  "main": "index.js",
+  "repository": "git@github.com:kristofferh/framework-api.git",
+  "author": "Kristoffer Hedstrom <kris.hedstrom@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "nodemon": "^1.12.1"
+  }
+}
