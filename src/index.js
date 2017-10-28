@@ -11,6 +11,9 @@ import models from "./models";
 // Load .env variables
 config();
 
+// Use environment defined port or 3000
+const port = process.env.PORT || 3000;
+
 // Create express server
 const server = express();
 
@@ -39,18 +42,18 @@ server.use(morgan("tiny"));
 
 // Create tables
 models.sequelize
-  .sync({})
+  .sync({ force: true })
   .then(() => {
     console.info("INFO - Database sync complete.");
 
     console.info("SETUP - Starting server...");
 
     // Start web server
-    server.listen(config.port, error => {
+    server.listen(port, error => {
       if (error) {
         console.error("ERROR - Unable to start server.");
       } else {
-        console.info(`INFO - Server started on port ${config.port}.`);
+        console.info(`INFO - Server started on port ${port}.`);
       }
     });
   })
