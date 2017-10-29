@@ -7,8 +7,8 @@ export async function getById(parentValue, { id }) {
 }
 
 // Get all items
-export async function getAll() {
-  return await models.Item.findAll();
+export async function getAll(parentValue, { limit, offset }) {
+  return await models.Item.findAll({ limit: limit, offset: offset });
 }
 
 // Create item
