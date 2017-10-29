@@ -7,6 +7,7 @@ import morgan from "morgan";
 import graphqlHTTP from "express-graphql";
 
 import models from "./models";
+import schema from "./schema";
 
 // Load .env variables
 config();
@@ -30,15 +31,15 @@ server.use(cookieParser());
 // HTTP logger
 server.use(morgan("tiny"));
 
-// API (GraphQL on route `/api`)
-// server.use(
-//   config.graphqlEndpoint,
-//   graphqlHTTP(() => ({
-//     schema,
-//     graphiql: process.env.NODE_ENV === "development",
-//     pretty: config.graphql.pretty
-//   }))
-// );
+// API
+server.use(
+  "/",
+  graphqlHTTP(() => ({
+    schema,
+    graphiql: process.env.NODE_ENV === "development",
+    pretty: true
+  }))
+);
 
 // Create tables
 models.sequelize
@@ -46,7 +47,7 @@ models.sequelize
   .then(() => {
     console.info("INFO - Database sync complete.");
 
-    console.info("SETUP - Starting server...");
+    console.info("SETUP - Starting server");
 
     // Start web server
     server.listen(port, error => {
