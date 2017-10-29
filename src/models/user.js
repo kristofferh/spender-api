@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 
 const User = (sequelize, DataTypes) => {
-  let User = sequelize.define("User", {
+  const User = sequelize.define("User", {
     email: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -49,16 +49,16 @@ const User = (sequelize, DataTypes) => {
 
   User.associate = models => {
     User.hasMany(models.Item, { onDelete: "cascade" });
-    User.hasMany(models.Tag, { onDelete: "cascade" });
+    //User.hasMany(models.Tag, { onDelete: "cascade" });
   };
 
-  User.prototype.verifyPassword = (password, done) => {
+  User.prototype.verifyPassword = function(password, done) {
     return bcrypt.compare(password, this.passwordHash, (err, res) => {
       return done(err, res);
     });
   };
 
-  User.prototype.toJSON = () => {
+  User.prototype.toJSON = function() {
     var values = this.get();
 
     // Dont' return passwordHash

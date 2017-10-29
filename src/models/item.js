@@ -1,5 +1,5 @@
 const Item = (sequelize, DataTypes) => {
-  let Item = sequelize.define("Item", {
+  const Item = sequelize.define("Item", {
     date: {
       type: DataTypes.DATE,
       allowNull: false
@@ -18,9 +18,9 @@ const Item = (sequelize, DataTypes) => {
     Item.belongsTo(models.User, {
       onDelete: "CASCADE"
     });
-    Item.belongsToMany(models.Tag, {
-      through: "ItemTags"
-    });
+    // Item.belongsToMany(models.Tag, {
+    //   through: "ItemTags"
+    // });
   };
 
   return Item;
