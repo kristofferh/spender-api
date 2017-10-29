@@ -36,9 +36,12 @@ const User = (sequelize, DataTypes) => {
       },
       set(val) {
         this.setDataValue("password", val);
-        let salt = bcrypt.genSaltSync(5);
-        let hash = bcrypt.hashSync(val, salt);
-        this.setDataValue("passwordHash", hash);
+        // let salt = bcrypt.genSaltSync(5);
+        // let hash = bcrypt.hashSync(val, salt);
+        bcrypt.hash(val, 10, (err, hash) => {
+          // Store hash in your password DB.
+          this.setDataValue("passwordHash", hash);
+        });
       }
     },
     passwordHash: {
