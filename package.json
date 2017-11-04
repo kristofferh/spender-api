@@ -18,7 +18,6 @@
     "babel-plugin-transform-es2015-parameters": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
-    "babel-preset-stage-2": "^6.24.1",
     "eslint": "^4.10.0",
     "eslint-config-prettier": "^2.6.0",
     "eslint-plugin-prettier": "^2.3.1",
