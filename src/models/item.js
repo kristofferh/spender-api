@@ -2,7 +2,8 @@ const Item = (sequelize, DataTypes) => {
   const Item = sequelize.define("Item", {
     date: {
       type: DataTypes.DATE,
-      allowNull: false
+      allowNull: false,
+      defaultValue: DataTypes.NOW
     },
     amount: {
       type: DataTypes.DECIMAL(10, 2),

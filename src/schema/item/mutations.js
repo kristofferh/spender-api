@@ -15,7 +15,7 @@ export const addItem = {
   type: ItemType,
   args: {
     date: {
-      type: new GraphQLNonNull(GraphQLString)
+      type: GraphQLString
     },
     amount: {
       type: new GraphQLNonNull(GraphQLFloat)
