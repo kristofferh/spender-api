@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Item Type Should match snapshot 1`] = `
+Object {
+  "email": Object {
+    "args": Array [],
+    "isDeprecated": false,
+    "name": "email",
+    "type": "String",
+  },
+  "id": Object {
+    "args": Array [],
+    "isDeprecated": false,
+    "name": "id",
+    "type": "Int",
+  },
+  "items": Object {
+    "args": Array [],
+    "isDeprecated": false,
+    "name": "items",
+    "resolve": [Function],
+    "type": "[Item]",
+  },
+  "password": Object {
+    "args": Array [],
+    "isDeprecated": false,
+    "name": "password",
+    "resolve": [Function],
+    "type": "String",
+  },
+}
+`;
