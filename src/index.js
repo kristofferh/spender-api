@@ -43,7 +43,7 @@ server.use(
 
 // Create tables
 models.sequelize
-  .sync({ force: true })
+  .sync()
   .then(() => {
     console.info("INFO - Database sync complete.");
 
