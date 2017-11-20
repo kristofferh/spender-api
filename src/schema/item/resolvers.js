@@ -1,14 +1,36 @@
-// App Imports
 import models from "../../models";
 
 // Get item by ID
 export async function getById(parentValue, { id }) {
-  return await models.Item.findOne({ where: { id } });
+  return await models.Item.findById(id);
 }
 
 // Get all items
 export async function getAll(parentValue, { limit, offset, order }) {
   return await models.Item.findAll({
+    limit: limit,
+    offset: offset,
+    order: order
+      ? order.indexOf("reverse:") === 0
+        ? [[order.substring(8), "DESC"]]
+        : [[order, "ASC"]]
+      : undefined
+  });
+}
+
+// Get all items by a given month
+export async function getByMonth(
+  parentValue,
+  { month, year, limit, offset, order }
+) {
+  const { sequelize, Sequelize } = models;
+  return await models.Item.findAll({
+    where: {
+      [Sequelize.Op.and]: [
+        sequelize.where(sequelize.fn("YEAR", sequelize.col("date")), year),
+        sequelize.where(sequelize.fn("MONTH", sequelize.col("date")), month)
+      ]
+    },
     limit: limit,
     offset: offset,
     order: order

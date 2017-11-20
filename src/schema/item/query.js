@@ -1,7 +1,7 @@
 import { GraphQLInt, GraphQLList, GraphQLString } from "graphql";
 
 import ItemType from "./type";
-import { getAll, getById } from "./resolvers";
+import { getAll, getById, getByMonth } from "./resolvers";
 
 // All items
 export const items = {
@@ -12,6 +12,19 @@ export const items = {
     order: { type: GraphQLString }
   },
   resolve: getAll
+};
+
+// All items
+export const itemsByMonth = {
+  type: new GraphQLList(ItemType),
+  args: {
+    month: { type: GraphQLInt },
+    year: { type: GraphQLInt },
+    limit: { type: GraphQLInt },
+    offset: { type: GraphQLInt },
+    order: { type: GraphQLString }
+  },
+  resolve: getByMonth
 };
 
 // Item by ID
