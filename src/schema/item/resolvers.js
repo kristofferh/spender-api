@@ -7,8 +7,16 @@ export async function getById(parentValue, { id }) {
 }
 
 // Get all items
-export async function getAll(parentValue, { limit, offset }) {
-  return await models.Item.findAll({ limit: limit, offset: offset });
+export async function getAll(parentValue, { limit, offset, order }) {
+  return await models.Item.findAll({
+    limit: limit,
+    offset: offset,
+    order: order
+      ? order.indexOf("reverse:") === 0
+        ? [[order.substring(8), "DESC"]]
+        : [[order, "ASC"]]
+      : undefined
+  });
 }
 
 // Create item
