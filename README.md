@@ -18,3 +18,8 @@ yarn build
 yarn start
 ```
 
+Test:
+```
+yarn test
+```
+
