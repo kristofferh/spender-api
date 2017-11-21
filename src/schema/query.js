@@ -1,8 +1,9 @@
 import { GraphQLObjectType } from "graphql";
 
-// App Imports
 import * as item from "./item/query";
 import * as user from "./user/query";
+import * as tag from "./tag/query";
+
 // Query
 const query = new GraphQLObjectType({
   name: "query",
@@ -10,7 +11,8 @@ const query = new GraphQLObjectType({
 
   fields: () => ({
     ...item,
-    ...user
+    ...user,
+    ...tag
   })
 });
 

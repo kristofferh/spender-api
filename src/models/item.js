@@ -19,9 +19,9 @@ const Item = (sequelize, DataTypes) => {
     Item.belongsTo(models.User, {
       onDelete: "CASCADE"
     });
-    // Item.belongsToMany(models.Tag, {
-    //   through: "ItemTags"
-    // });
+    Item.belongsToMany(models.Tag, {
+      through: "ItemTags"
+    });
   };
 
   return Item;
