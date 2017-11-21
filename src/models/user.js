@@ -49,7 +49,7 @@ const User = (sequelize, DataTypes) => {
 
   User.associate = models => {
     User.hasMany(models.Item, { onDelete: "cascade" });
-    //User.hasMany(models.Tag, { onDelete: "cascade" });
+    User.hasMany(models.Tag, { onDelete: "cascade" });
   };
 
   User.prototype.verifyPassword = function(password, done) {

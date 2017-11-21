@@ -3,12 +3,26 @@ import {
   GraphQLString,
   GraphQLInt,
   GraphQLFloat,
-  GraphQLNonNull
+  GraphQLNonNull,
+  GraphQLInputObjectType,
+  GraphQLList
 } from "graphql";
 
 // App Imports
 import ItemType from "./type";
 import { create, remove } from "./resolvers";
+
+const TagInput = new GraphQLInputObjectType({
+  name: "TagInput",
+  description: "This represents a Tag Input",
+  fields: () => {
+    return {
+      name: {
+        type: GraphQLString
+      }
+    };
+  }
+});
 
 // Create item
 export const addItem = {
@@ -22,6 +36,9 @@ export const addItem = {
     },
     description: {
       type: new GraphQLNonNull(GraphQLString)
+    },
+    tags: {
+      type: new GraphQLList(TagInput)
     }
   },
   resolve: create

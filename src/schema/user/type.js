@@ -7,6 +7,7 @@ import {
 } from "graphql";
 
 import ItemType from "../item/type";
+import TagType from "../tag/type";
 
 const UserType = new GraphQLObjectType({
   name: "User",
@@ -29,6 +30,12 @@ const UserType = new GraphQLObjectType({
         type: new GraphQLList(ItemType),
         resolve(user) {
           return user.getItems();
+        }
+      },
+      tags: {
+        type: new GraphQLList(TagType),
+        resolve(user) {
+          return user.getTags();
         }
       }
     };

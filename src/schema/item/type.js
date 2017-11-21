@@ -1,10 +1,12 @@
-// Imports
 import {
   GraphQLObjectType,
   GraphQLString,
   GraphQLInt,
-  GraphQLFloat
+  GraphQLFloat,
+  GraphQLList
 } from "graphql";
+
+import TagType from "../tag/type";
 
 const ItemType = new GraphQLObjectType({
   name: "Item",
@@ -22,6 +24,12 @@ const ItemType = new GraphQLObjectType({
     },
     description: {
       type: GraphQLString
+    },
+    tags: {
+      type: new GraphQLList(TagType),
+      resolve(item) {
+        return item.getTags();
+      }
     }
   })
 });
