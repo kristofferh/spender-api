@@ -1,6 +1,6 @@
-# Framework API
+# Spender API
 
-Boilerplate Node API using Sequelize, GraphQL and Express.
+Node API using Sequelize, GraphQL and Express.
 
 This API uses MySQL, but that could be swapped out later.
 

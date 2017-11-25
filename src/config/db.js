@@ -2,7 +2,7 @@ module.exports = {
   development: {
     username: "local-dev",
     password: "",
-    database: "framework",
+    database: "spender",
     host: "localhost",
     dialect: "mysql",
     port: 3306,
@@ -11,7 +11,7 @@ module.exports = {
   test: {
     username: "local-dev",
     password: "",
-    database: "framework",
+    database: "spender",
     host: "localhost",
     dialect: "mysql",
     port: 3306,
@@ -20,7 +20,7 @@ module.exports = {
   staging: {
     username: "local-dev",
     password: "",
-    database: "framework",
+    database: "spender",
     host: "localhost",
     dialect: "mysql",
     port: 3306,
