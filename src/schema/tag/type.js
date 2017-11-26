@@ -11,6 +11,12 @@ const TagType = new GraphQLObjectType({
     },
     name: {
       type: GraphQLString
+    },
+    description: {
+      type: GraphQLString
+    },
+    color: {
+      type: GraphQLString
     }
   })
 });

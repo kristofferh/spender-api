@@ -17,8 +17,12 @@
     "verbose": true,
     "coverageDirectory": "./coverage/",
     "collectCoverage": true,
-    "roots": ["__tests__/"],
-    "modulePaths": ["src"]
+    "roots": [
+      "__tests__/"
+    ],
+    "modulePaths": [
+      "src"
+    ]
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

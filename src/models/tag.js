@@ -3,6 +3,12 @@ const Tag = (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    description: {
+      type: DataTypes.STRING
+    },
+    color: {
+      type: DataTypes.STRING
     }
   });
 

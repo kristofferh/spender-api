@@ -10,6 +10,12 @@ export const addTag = {
   args: {
     name: {
       type: new GraphQLNonNull(GraphQLString)
+    },
+    description: {
+      type: GraphQLString
+    },
+    color: {
+      type: GraphQLString
     }
   },
   resolve: create
