@@ -22,9 +22,7 @@ const UserType = new GraphQLObjectType({
       },
       password: {
         type: GraphQLString,
-        resolve(user) {
-          return user.passwordHash;
-        }
+        resolve: () => null
       },
       items: {
         type: new GraphQLList(ItemType),
