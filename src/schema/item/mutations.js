@@ -1,4 +1,3 @@
-// Imports
 import {
   GraphQLString,
   GraphQLInt,
@@ -8,9 +7,8 @@ import {
   GraphQLList
 } from "graphql";
 
-// App Imports
 import ItemType from "./type";
-import { create, remove } from "./resolvers";
+import { create, remove, edit } from "./resolvers";
 
 const TagInput = new GraphQLInputObjectType({
   name: "TagInput",
@@ -44,12 +42,34 @@ export const addItem = {
   resolve: create
 };
 
+// Edit item
+export const editItem = {
+  type: ItemType,
+  args: {
+    id: {
+      type: new GraphQLNonNull(GraphQLInt)
+    },
+    date: {
+      type: GraphQLString
+    },
+    amount: {
+      type: new GraphQLNonNull(GraphQLFloat)
+    },
+    description: {
+      type: new GraphQLNonNull(GraphQLString)
+    },
+    tags: {
+      type: new GraphQLList(TagInput)
+    }
+  },
+  resolve: edit
+};
+
 // Remove item
 export const removeItem = {
   type: ItemType,
   args: {
     id: {
-      name: "id",
       type: GraphQLInt
     }
   },

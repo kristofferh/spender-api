@@ -73,6 +73,67 @@ export async function create(parentValue, { date, amount, description, tags }) {
     });
 }
 
+// Create item
+export async function edit(
+  parentValue,
+  { id, date, amount, description, tags }
+) {
+  // Make sure that the user is authorized to insert here / get userid.
+  const update = await models.Item.update(
+    {
+      date: date,
+      amount: amount,
+      description: description,
+      UserId: 1
+    },
+    {
+      where: {
+        id: id
+      }
+    }
+  );
+  return update;
+  /*
+  return await models.Item
+    .update(
+      {
+        date: date,
+        amount: amount,
+        description: description,
+        UserId: 1
+      },
+      {
+        where: {
+          id: id
+        }
+      }
+    )
+    .then(item => {
+      if (tags) {
+        return models.Sequelize.Promise
+          .map(tags, tag => {
+            return models.Tag.findOrCreate({
+              where: {
+                name: tag.name.toLowerCase(),
+                UserId: 1
+              }
+            });
+          })
+          .then(tags => {
+            tags = tags.map(tag => {
+              return tag[0];
+            });
+            return item.addTags(tags).then(() => item);
+          });
+      }
+      return item;
+    })
+    .then(() => {
+      return models.Item.findById(id);
+    });
+    */
+}
+
 // Delete item
 export async function remove(parentValue, { id }) {
   return await models.Item.destroy({ where: { id } });
