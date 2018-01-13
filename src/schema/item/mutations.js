@@ -17,6 +17,9 @@ const TagInput = new GraphQLInputObjectType({
     return {
       name: {
         type: GraphQLString
+      },
+      description: {
+        type: GraphQLString
       }
     };
   }
