@@ -6,6 +6,8 @@ import {
   GraphQLList
 } from "graphql";
 
+import GraphQLDate from "graphql-date";
+
 import TagType from "../tag/type";
 
 const ItemType = new GraphQLObjectType({
@@ -17,7 +19,7 @@ const ItemType = new GraphQLObjectType({
       type: GraphQLInt
     },
     date: {
-      type: GraphQLString
+      type: GraphQLDate
     },
     amount: {
       type: GraphQLFloat
