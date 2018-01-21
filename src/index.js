@@ -18,6 +18,7 @@ const port = process.env.PORT || 3000;
 // Create express server
 const server = express();
 
+server.set("trust proxy", true);
 // Enable CORS
 server.use(cors());
 
@@ -30,6 +31,26 @@ server.use(cookieParser());
 
 // HTTP logger
 server.use(morgan("tiny"));
+
+server
+  .get("/_ah/start", function(req, res) {
+    res
+      .status(200)
+      .send("ok")
+      .end();
+  })
+  .get("/_ah/health", function(req, res) {
+    res
+      .status(200)
+      .send("ok")
+      .end();
+  })
+  .get("/_ah/stop", function(req, res) {
+    res
+      .status(200)
+      .send("ok")
+      .end();
+  });
 
 // API
 server.use(

@@ -6,6 +6,9 @@
   "repository": "git@github.com:kristofferh/framework-api.git",
   "author": "Kristoffer Hedstrom <kris.hedstrom@gmail.com>",
   "license": "MIT",
+  "engines": {
+    "node": ">= 8.2.0"
+  },
   "scripts": {
     "test": "eslint src && jest",
     "dev": "NODE_ENV=development nodemon src/index.js --exec babel-node",
@@ -17,12 +20,8 @@
     "verbose": true,
     "coverageDirectory": "./coverage/",
     "collectCoverage": true,
-    "roots": [
-      "__tests__/"
-    ],
-    "modulePaths": [
-      "src"
-    ]
+    "roots": ["__tests__/"],
+    "modulePaths": ["src"]
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

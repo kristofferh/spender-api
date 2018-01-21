@@ -29,10 +29,12 @@ module.exports = {
   production: {
     username: process.env.RDS_USERNAME,
     password: process.env.RDS_PASSWORD,
-    database: "framework",
-    host: process.env.RDS_HOSTNAME,
+    host: `/cloudsql/${process.env.RDS_HOSTNAME}`,
+    database: "spender",
     dialect: "mysql",
-    port: process.env.RDS_PORT,
+    dialectOptions: {
+      socketPath: `/cloudsql/${process.env.RDS_HOSTNAME}`
+    },
     logging: null
   }
 };
