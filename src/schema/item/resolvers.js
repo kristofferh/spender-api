@@ -1,4 +1,5 @@
 import models from "../../models";
+import { auth } from "../../services/auth";
 
 // Get item by ID
 export async function getById(parentValue, { id }) {
@@ -6,8 +7,12 @@ export async function getById(parentValue, { id }) {
 }
 
 // Get all items
-export async function getAll(parentValue, { limit, offset, order }) {
+export async function getAll(_, { limit, offset, order }, ctx) {
+  const id = auth(ctx);
   return await models.Item.findAll({
+    where: {
+      UserId: id
+    },
     limit: limit,
     offset: offset,
     order: order

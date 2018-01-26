@@ -13,7 +13,7 @@ const User = (sequelize, DataTypes) => {
         isUnique(value, next) {
           User.find({ where: { email: value } })
             .then(user => {
-              // reject if a different user wants to use the same email
+              // Reject if a different user wants to use the same email
               if (user && this.id !== user.id) {
                 return next("Email already in use!");
               }

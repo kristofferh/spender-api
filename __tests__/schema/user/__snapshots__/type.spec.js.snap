@@ -35,5 +35,11 @@ Object {
     "resolve": [Function],
     "type": "[Tag]",
   },
+  "token": Object {
+    "args": Array [],
+    "isDeprecated": false,
+    "name": "token",
+    "type": "String",
+  },
 }
 `;
