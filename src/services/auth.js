@@ -1,7 +1,6 @@
 import jwt from "jsonwebtoken";
 
 export const auth = ({ headers }) => {
-  console.log("auth", headers);
   const authorization = headers.authorization;
   if (authorization) {
     const token = authorization.replace("Bearer ", "");
