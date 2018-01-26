@@ -17,7 +17,7 @@ export const addUser = {
   resolve: create
 };
 
-// Remove item
+// Remove user
 export const removeUser = {
   type: UserType,
   args: {

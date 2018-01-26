@@ -15,24 +15,33 @@ const UserType = new GraphQLObjectType({
   fields: () => {
     return {
       id: {
-        type: GraphQLInt
+        type: GraphQLInt,
+        resolve({ user }) {
+          return user.id;
+        }
       },
       email: {
-        type: GraphQLString
+        type: GraphQLString,
+        resolve({ user }) {
+          return user.email;
+        }
       },
       password: {
         type: GraphQLString,
         resolve: () => null
       },
+      token: {
+        type: GraphQLString
+      },
       items: {
         type: new GraphQLList(ItemType),
-        resolve(user) {
+        resolve({ user }) {
           return user.getItems();
         }
       },
       tags: {
         type: new GraphQLList(TagType),
-        resolve(user) {
+        resolve({ user }) {
           return user.getTags();
         }
       }

@@ -5,6 +5,7 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import graphqlHTTP from "express-graphql";
+import jwt from "express-jwt";
 
 import models from "./models";
 import schema from "./schema";
@@ -31,6 +32,14 @@ server.use(cookieParser());
 
 // HTTP logger
 server.use(morgan("tiny"));
+
+// Add Json web token middleware
+server.use(
+  jwt({
+    secret: "pizza",
+    credentialsRequired: false
+  })
+);
 
 server
   .get("/_ah/start", function(req, res) {

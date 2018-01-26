@@ -1,4 +1,5 @@
-// App Imports
+import jwt from "jsonwebtoken";
+
 import models from "../../models";
 
 // Get user by ID
@@ -13,10 +14,17 @@ export async function getAll() {
 
 // Create user
 export async function create(parentValue, { email, password }) {
-  return await models.User.create({
+  const user = await models.User.create({
     email,
     password
   });
+
+  const token = jwt.sign({ id: user.id }, "pizza");
+
+  return {
+    user,
+    token
+  };
 }
 
 // Delete item
