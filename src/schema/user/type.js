@@ -1,4 +1,3 @@
-// Imports
 import {
   GraphQLObjectType,
   GraphQLString,

@@ -73,7 +73,6 @@ export default class PasswordlessSequelize {
    * error or as callback() if the token was successully stored / updated
    */
   storeOrUpdate(token, uid, ttl, origin, callback) {
-    console.log("store or update");
     if (!token || !uid || !ttl || !callback || !isNumber(ttl)) {
       throw new Error(
         "TokenStore:storeOrUpdate called with invalid parameters"

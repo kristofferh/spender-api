@@ -1,9 +1,9 @@
 import { GraphQLObjectType } from "graphql";
 
-// App Imports
 import * as item from "./item/mutations";
 import * as user from "./user/mutations";
 import * as tag from "./tag/mutations";
+import * as usertoken from "./usertoken/mutations";
 
 // Mutation
 const mutation = new GraphQLObjectType({
@@ -13,7 +13,8 @@ const mutation = new GraphQLObjectType({
   fields: () => ({
     ...item,
     ...user,
-    ...tag
+    ...tag,
+    ...usertoken
   })
 });
 

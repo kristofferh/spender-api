@@ -15,7 +15,8 @@ const UserToken = (sequelize, DataTypes) => {
     UserToken.belongsTo(models.User, {
       foreignKey: {
         name: "uid",
-        allowNull: false
+        allowNull: false,
+        unique: true
       },
       onDelete: "CASCADE"
     });
