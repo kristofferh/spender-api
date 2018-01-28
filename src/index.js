@@ -76,7 +76,6 @@ models.sequelize
   .sync()
   .then(() => {
     console.info("INFO - Database sync complete.");
-
     console.info("SETUP - Starting server");
 
     // Start web server
@@ -88,7 +87,7 @@ models.sequelize
       }
     });
   })
-  .catch(() => {
-    console.error("ERROR - Unable to sync database.");
+  .catch(error => {
+    console.error("ERROR - Unable to sync database.", error);
     console.error("ERROR - Server not started.");
   });
