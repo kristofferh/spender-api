@@ -7,10 +7,6 @@ module.exports = {
         primaryKey: true,
         type: DataTypes.INTEGER
       },
-      uid: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
       token: {
         type: DataTypes.STRING
       },
@@ -28,7 +24,7 @@ module.exports = {
         allowNull: false,
         type: DataTypes.DATE
       },
-      UserId: {
+      uid: {
         allowNull: false,
         type: DataTypes.INTEGER,
         references: {
