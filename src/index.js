@@ -6,12 +6,14 @@ import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import graphqlHTTP from "express-graphql";
 import jwt from "express-jwt";
+import sgMail from "@sendgrid/mail";
 
 import models from "./models";
 import schema from "./schema";
 
 // Load .env variables
 config();
+sgMail.setApiKey(process.env.SG);
 
 // Use environment defined port or 3000
 const port = process.env.PORT || 3000;

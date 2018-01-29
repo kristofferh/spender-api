@@ -1,4 +1,5 @@
 import crypto from "crypto";
+import sgMail from "@sendgrid/mail";
 
 import models from "../../models";
 
@@ -16,9 +17,25 @@ async function createAndStoreToken(uid, ttl = 3600000, origin) {
       uid,
       origin
     });
-    return true;
+    return hashedToken;
   } catch (err) {
     return false;
+  }
+}
+
+async function deliverEmail(to, url) {
+  const msg = {
+    to: to,
+    from: "kris@k-create.com",
+    subject: "Spender Login Verification",
+    text: `Hello, here's your login link.\n ${url}`,
+    html: `<p>Hello, here's your login link.</p><p>${url}</p>`
+  };
+  try {
+    return await sgMail.send(msg);
+  } catch (err) {
+    console.log(err);
+    throw new Error(err);
   }
 }
 
@@ -30,8 +47,28 @@ export async function requestToken(
 ) {
   const findOrCreateUser = await models.User.findOrCreate({ where: { email } });
   const [User] = findOrCreateUser;
+  let deliveryStatus;
+  const token = await createAndStoreToken(User["id"], ttl, origin);
 
-  const getToken = await createAndStoreToken(User["id"], ttl, origin);
-  // add delivery method.
-  return getToken;
+  if (!token) {
+    return false;
+  }
+
+  // @todo: add more delivery mechanisms.
+  if (delivery !== "email") {
+    deliveryStatus = false;
+  } else {
+    try {
+      await deliverEmail(
+        email,
+        `http://localhost:3000/verify?token=${token}&email=${encodeURIComponent(
+          email
+        )}`
+      );
+      deliveryStatus = true;
+    } catch (e) {
+      deliveryStatus = false;
+    }
+  }
+  return deliveryStatus;
 }

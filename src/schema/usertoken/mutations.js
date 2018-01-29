@@ -9,6 +9,9 @@ export const requestNewToken = {
   args: {
     email: {
       type: new GraphQLNonNull(GraphQLString)
+    },
+    delivery: {
+      type: GraphQLString
     }
   },
   resolve: requestToken
