@@ -1,4 +1,4 @@
-import { GraphQLObjectType, GraphQLBoolean } from "graphql";
+import { GraphQLObjectType, GraphQLBoolean, GraphQLString } from "graphql";
 
 const UserTokenType = new GraphQLObjectType({
   name: "UserToken",
@@ -13,6 +13,9 @@ const UserTokenType = new GraphQLObjectType({
           }
           return false;
         }
+      },
+      token: {
+        type: GraphQLString
       }
     };
   }

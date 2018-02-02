@@ -1,13 +1,18 @@
 const UserToken = (sequelize, DataTypes) => {
   const UserToken = sequelize.define("UserToken", {
     token: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false
     },
     origin: {
       type: DataTypes.STRING
     },
     ttl: {
       type: DataTypes.BIGINT
+    },
+    delivery: {
+      type: DataTypes.STRING,
+      allowNull: false
     }
   });
 

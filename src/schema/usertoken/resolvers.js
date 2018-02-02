@@ -1,5 +1,6 @@
 import crypto from "crypto";
 import sgMail from "@sendgrid/mail";
+import jwt from "jsonwebtoken";
 
 import models from "../../models";
 
@@ -34,7 +35,6 @@ async function deliverEmail(to, url) {
   try {
     return await sgMail.send(msg);
   } catch (err) {
-    console.log(err);
     throw new Error(err);
   }
 }
@@ -71,4 +71,25 @@ export async function requestToken(
     }
   }
   return deliveryStatus;
+}
+
+// Verify.
+export async function verify(_, { delivery, token }) {
+  try {
+    const modelToken = await models.UserToken.findOne({
+      where: { delivery, token }
+    });
+
+    if (!modelToken) {
+      throw new Error("Invalid token");
+    }
+
+    if (Date.now() > modelToken.ttl) {
+      throw new Error("Token expired");
+    }
+
+    return verify;
+  } catch (e) {
+    return e;
+  }
 }

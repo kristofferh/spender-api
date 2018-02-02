@@ -1,9 +1,9 @@
 import { GraphQLString, GraphQLNonNull } from "graphql";
 
 import UserTokenType from "./type";
-import { requestToken } from "./resolvers";
+import { requestToken, verify } from "./resolvers";
 
-// Log in
+// Log in or signup.
 export const requestNewToken = {
   type: UserTokenType,
   args: {
@@ -15,4 +15,17 @@ export const requestNewToken = {
     }
   },
   resolve: requestToken
+};
+
+export const verifyToken = {
+  type: UserTokenType,
+  args: {
+    delivery: {
+      type: new GraphQLNonNull(GraphQLString)
+    },
+    token: {
+      type: new GraphQLNonNull(GraphQLString)
+    }
+  },
+  resolve: verify
 };
