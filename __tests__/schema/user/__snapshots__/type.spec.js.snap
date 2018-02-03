@@ -21,13 +21,6 @@ Object {
     "resolve": [Function],
     "type": "[Item]",
   },
-  "password": Object {
-    "args": Array [],
-    "isDeprecated": false,
-    "name": "password",
-    "resolve": [Function],
-    "type": "String",
-  },
   "tags": Object {
     "args": Array [],
     "isDeprecated": false,
