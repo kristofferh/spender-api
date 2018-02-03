@@ -2,7 +2,8 @@ import models from "../../models";
 import { auth } from "../../services/auth";
 
 // Get item by ID
-export async function getById(parentValue, { id }) {
+export async function getById(parentValue, { id }, ctx) {
+  auth(ctx);
   return await models.Item.findById(id);
 }
 
@@ -26,11 +27,14 @@ export async function getAll(_, { limit, offset, order }, ctx) {
 // Get all items by a given month
 export async function getByMonth(
   parentValue,
-  { month, year, limit, offset, order }
+  { month, year, limit, offset, order },
+  ctx
 ) {
   const { sequelize, Sequelize } = models;
+  const id = auth(ctx);
   return await models.Item.findAll({
     where: {
+      UserId: id,
       [Sequelize.Op.and]: [
         sequelize.where(sequelize.fn("YEAR", sequelize.col("date")), year),
         sequelize.where(sequelize.fn("MONTH", sequelize.col("date")), month)
@@ -47,14 +51,18 @@ export async function getByMonth(
 }
 
 // Create item
-export async function create(parentValue, { date, amount, description, tags }) {
-  // Make sure that the user is authorized to insert here / get userid.
+export async function create(
+  parentValue,
+  { date, amount, description, tags },
+  ctx
+) {
+  const uid = auth(ctx);
   return await models.Item
     .create({
       date: date,
       amount: amount,
       description: description,
-      UserId: 1
+      UserId: uid
     })
     .then(item => {
       if (tags) {
@@ -63,7 +71,7 @@ export async function create(parentValue, { date, amount, description, tags }) {
             return models.Tag.findOrCreate({
               where: {
                 name: tag.name.toLowerCase(),
-                UserId: 1
+                UserId: uid
               }
             });
           })
@@ -81,15 +89,16 @@ export async function create(parentValue, { date, amount, description, tags }) {
 // Create item
 export async function edit(
   parentValue,
-  { id, date, amount, description, tags }
+  { id, date, amount, description, tags },
+  ctx
 ) {
-  // Make sure that the user is authorized to insert here / get userid.
+  const uid = auth(ctx);
   await models.Item.update(
     {
       date: date,
       amount: amount,
       description: description,
-      UserId: 1
+      UserId: uid
     },
     {
       where: {
@@ -106,7 +115,7 @@ export async function edit(
         return models.Tag.findOrCreate({
           where: {
             name: tag.name.toLowerCase(),
-            UserId: 1
+            UserId: uid
           }
         });
       })
@@ -122,6 +131,7 @@ export async function edit(
 }
 
 // Delete item
-export async function remove(parentValue, { id }) {
-  return await models.Item.destroy({ where: { id } });
+export async function remove(parentValue, { id }, ctx) {
+  const uid = auth(ctx);
+  return await models.Item.destroy({ where: { id, UserId: uid } });
 }
