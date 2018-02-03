@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 
 import models from "../../models";
 
-async function createAndStoreToken(uid, ttl = 3600000, origin) {
+async function createAndStoreToken(uid, delivery, ttl = 3600000, origin) {
   const seed = crypto.randomBytes(20);
   const hashedToken = crypto
     .createHash("sha1")
@@ -16,7 +16,8 @@ async function createAndStoreToken(uid, ttl = 3600000, origin) {
       token: hashedToken,
       ttl: Date.now() + ttl,
       uid,
-      origin
+      origin,
+      delivery
     });
     return hashedToken;
   } catch (err) {
@@ -43,26 +44,29 @@ async function deliverEmail(to, url) {
 // the id, deliver the token and return.
 export async function requestToken(
   _,
-  { email, delivery = "email", ttl, origin }
+  { delivery, deliveryType = "email", ttl, origin }
 ) {
-  const findOrCreateUser = await models.User.findOrCreate({ where: { email } });
+  // @todo: add more unique fields (i.e. phone number);
+  const findOrCreateUser = await models.User.findOrCreate({
+    where: { email: delivery }
+  });
   const [User] = findOrCreateUser;
   let deliveryStatus;
-  const token = await createAndStoreToken(User["id"], ttl, origin);
+  const token = await createAndStoreToken(User["id"], delivery, ttl, origin);
 
   if (!token) {
     return false;
   }
 
   // @todo: add more delivery mechanisms.
-  if (delivery !== "email") {
+  if (deliveryType !== "email") {
     deliveryStatus = false;
   } else {
     try {
       await deliverEmail(
-        email,
-        `http://localhost:3000/verify?token=${token}&email=${encodeURIComponent(
-          email
+        delivery,
+        `http://localhost:3000/verify?token=${token}&delivery=${encodeURIComponent(
+          delivery
         )}`
       );
       deliveryStatus = true;
@@ -73,7 +77,8 @@ export async function requestToken(
   return deliveryStatus;
 }
 
-// Verify.
+// Verify token then delete it, create new jwt token and return it.
+// Throws if anything goes wrong along the way
 export async function verify(_, { delivery, token }) {
   try {
     const modelToken = await models.UserToken.findOne({
@@ -88,7 +93,16 @@ export async function verify(_, { delivery, token }) {
       throw new Error("Token expired");
     }
 
-    return verify;
+    const removeToken = await models.UserToken.destroy({
+      where: { token }
+    });
+
+    if (!removeToken) {
+      throw new Error("Something went wrong");
+    }
+
+    const jwtToken = jwt.sign({ id: modelToken.uid }, "pizza");
+    return { token: jwtToken };
   } catch (e) {
     return e;
   }

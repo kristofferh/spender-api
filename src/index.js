@@ -43,6 +43,14 @@ server.use(
   })
 );
 
+server.use((err, req, res, next) => {
+  if (err.name === "UnauthorizedError") {
+    res.status(401).send("invalid token...");
+  } else {
+    next();
+  }
+});
+
 server
   .get("/_ah/start", function(req, res) {
     res

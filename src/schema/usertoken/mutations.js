@@ -7,10 +7,10 @@ import { requestToken, verify } from "./resolvers";
 export const requestNewToken = {
   type: UserTokenType,
   args: {
-    email: {
+    delivery: {
       type: new GraphQLNonNull(GraphQLString)
     },
-    delivery: {
+    deliveryType: {
       type: GraphQLString
     }
   },
