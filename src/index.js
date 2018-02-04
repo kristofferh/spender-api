@@ -8,6 +8,7 @@ import graphqlHTTP from "express-graphql";
 import jwt from "express-jwt";
 import sgMail from "@sendgrid/mail";
 
+import errors from "./services/error";
 import models from "./models";
 import schema from "./schema";
 
@@ -43,14 +44,6 @@ server.use(
   })
 );
 
-server.use((err, req, res, next) => {
-  if (err.name === "UnauthorizedError") {
-    res.status(401).send("invalid token...");
-  } else {
-    next();
-  }
-});
-
 server
   .get("/_ah/start", function(req, res) {
     res
@@ -71,13 +64,34 @@ server
       .end();
   });
 
+// Invalid jwt token.
+server.use((err, req, res, next) => {
+  if (err.name === "UnauthorizedError") {
+    res.status(401).send("Invalid token.");
+  } else {
+    next();
+  }
+});
+
 // API
 server.use(
   "/",
-  graphqlHTTP(() => ({
+  graphqlHTTP((req, res) => ({
     schema,
     graphiql: process.env.NODE_ENV === "development",
-    pretty: true
+    pretty: true,
+    formatError(err) {
+      errors.report(err.originalError);
+      if (err.originalError && err.originalError.code) {
+        res.status(err.originalError.code);
+      }
+      return {
+        message: err.message,
+        code: err.originalError && err.originalError.code,
+        locations: err.locations,
+        path: err.path
+      };
+    }
   }))
 );
 

@@ -1,5 +1,7 @@
 import jwt from "jsonwebtoken";
 
+import { UnauthorizedError } from "./error";
+
 export const auth = ({ headers }) => {
   const authorization = headers.authorization;
   if (authorization) {
@@ -9,5 +11,5 @@ export const auth = ({ headers }) => {
     return id;
   }
 
-  throw new Error("Not authenticated");
+  throw new UnauthorizedError("Not authenticated");
 };
