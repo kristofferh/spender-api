@@ -50,6 +50,32 @@ export async function getByMonth(
   });
 }
 
+// Get all items by a given tag
+export async function getByTag(
+  parentValue,
+  { tagId, limit, offset, order },
+  ctx
+) {
+  //const { sequelize, Sequelize } = models;
+  const id = auth(ctx);
+  return await models.Item.findAll({
+    include: {
+      model: models.Tag,
+      where: { id: tagId }
+    },
+    where: {
+      UserId: id
+    },
+    limit: limit,
+    offset: offset,
+    order: order
+      ? order.indexOf("reverse:") === 0
+        ? [[order.substring(8), "DESC"]]
+        : [[order, "ASC"]]
+      : undefined
+  });
+}
+
 // Create item
 export async function create(
   parentValue,
