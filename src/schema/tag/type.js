@@ -29,7 +29,9 @@ const TagType = new GraphQLObjectType({
     total: {
       type: GraphQLFloat,
       resolve(tag) {
-        return Number(tag.dataValues.total);
+        if (tag && tag.dataValues) {
+          return Number(tag.dataValues.total);
+        }
       }
     },
     items: {
