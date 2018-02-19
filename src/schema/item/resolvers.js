@@ -50,22 +50,31 @@ export async function getByMonth(
   });
 }
 
-// Get all items by a given tag
+// Get all items by a given tag, optionally by year and month.
 export async function getByTag(
   parentValue,
-  { tagId, limit, offset, order },
+  { tagId, limit, year, month, offset, order },
   ctx
 ) {
-  //const { sequelize, Sequelize } = models;
   const id = auth(ctx);
+  const { sequelize, Sequelize } = models;
+  const where = {
+    UserId: id,
+    [Sequelize.Op.and]: [
+      year
+        ? sequelize.where(sequelize.fn("YEAR", sequelize.col("date")), year)
+        : null,
+      month
+        ? sequelize.where(sequelize.fn("MONTH", sequelize.col("date")), month)
+        : null
+    ]
+  };
   return await models.Item.findAll({
     include: {
       model: models.Tag,
       where: { id: tagId }
     },
-    where: {
-      UserId: id
-    },
+    where,
     limit: limit,
     offset: offset,
     order: order

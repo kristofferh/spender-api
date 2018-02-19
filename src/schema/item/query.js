@@ -32,6 +32,10 @@ export const itemsByTag = {
   type: new GraphQLList(ItemType),
   args: {
     tagId: { type: GraphQLInt },
+    month: { type: GraphQLInt },
+    year: { type: GraphQLInt },
+    limit: { type: GraphQLInt },
+    offset: { type: GraphQLInt },
     order: { type: GraphQLString }
   },
   resolve: getByTag
