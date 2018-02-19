@@ -9,7 +9,8 @@ export const tags = {
   args: {
     limit: { type: GraphQLInt },
     offset: { type: GraphQLInt },
-    order: { type: GraphQLString }
+    order: { type: GraphQLString },
+    group: { type: GraphQLString }
   },
   resolve: getAll
 };
