@@ -1,11 +1,11 @@
 module.exports = {
   development: {
     username: "local-dev",
-    password: "",
+    password: "local",
     database: "spender",
     host: "localhost",
-    dialect: "mysql",
-    port: 3306,
+    dialect: "postgres",
+    port: 5432, // 3306 for mysql,
     logging: console.log
   },
   test: {
