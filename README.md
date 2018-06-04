@@ -2,7 +2,7 @@
 
 Node API using Sequelize, GraphQL and Express.
 
-This API uses MySQL, but that could be swapped out later.
+This API uses Postgres, but that could be swapped out later.
 
 ## Usage
 
