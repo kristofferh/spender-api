@@ -7,7 +7,7 @@
   "author": "Kristoffer Hedstrom <kris.hedstrom@gmail.com>",
   "license": "MIT",
   "engines": {
-    "node": ">= 10.2.0"
+    "node": ">= 9.11.0"
   },
   "scripts": {
     "test": "eslint src && jest",
