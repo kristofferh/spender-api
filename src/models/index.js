@@ -8,14 +8,21 @@ const env = process.env.NODE_ENV || "development";
 const dbConfig = db[env];
 
 let models = {};
-
+let connection;
 // Create new database connection
-const connection = new Sequelize(
-  dbConfig.database,
-  dbConfig.username,
-  dbConfig.password,
-  { ...dbConfig, operatorsAliases: Sequelize.Op }
-);
+if (dbConfig.use_env_variable) {
+  connection = new Sequelize(process.env[dbConfig.use_env_variable], {
+    ...dbConfig,
+    operatorsAliases: Sequelize.Op
+  });
+} else {
+  connection = new Sequelize(
+    dbConfig.database,
+    dbConfig.username,
+    dbConfig.password,
+    { ...dbConfig, operatorsAliases: Sequelize.Op }
+  );
+}
 
 // Attempt to connect
 connection

@@ -27,14 +27,8 @@ module.exports = {
     logging: console.log
   },
   production: {
-    username: process.env.RDS_USERNAME,
-    password: process.env.RDS_PASSWORD,
-    host: `/cloudsql/${process.env.RDS_HOSTNAME}`,
-    database: "spender",
-    dialect: "mysql",
-    dialectOptions: {
-      socketPath: `/cloudsql/${process.env.RDS_HOSTNAME}`
-    },
+    use_env_variable: "DATABASE_URL",
+    dialect: "postgres",
     logging: null
   }
 };
