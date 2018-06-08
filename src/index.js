@@ -39,7 +39,7 @@ server.use(morgan("tiny"));
 // Add Json web token middleware
 server.use(
   jwt({
-    secret: "pizza",
+    secret: process.env.SECRET,
     credentialsRequired: false
   })
 );

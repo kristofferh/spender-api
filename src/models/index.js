@@ -2,10 +2,10 @@ import fs from "fs";
 import path from "path";
 import Sequelize from "sequelize";
 
-import db from "../config/db.js";
+import config from "../config";
 
 const env = process.env.NODE_ENV || "development";
-const dbConfig = db[env];
+const dbConfig = config[env].db;
 
 let models = {};
 let connection;

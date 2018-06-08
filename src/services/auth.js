@@ -6,7 +6,7 @@ export const auth = ({ headers }) => {
   const authorization = headers.authorization;
   if (authorization) {
     const token = authorization.replace("Bearer ", "");
-    const { id } = jwt.verify(token, "pizza");
+    const { id } = jwt.verify(token, process.env.SECRET);
     // @todo: add scope.
     return id;
   }
