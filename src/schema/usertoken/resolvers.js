@@ -3,6 +3,9 @@ import sgMail from "@sendgrid/mail";
 import jwt from "jsonwebtoken";
 
 import models from "../../models";
+import config from "../../config";
+
+const env = process.env.NODE_ENV || "development";
 
 async function createAndStoreToken(uid, delivery, ttl = 3600000, origin) {
   const seed = crypto.randomBytes(20);
@@ -65,7 +68,8 @@ export async function requestToken(
     try {
       await deliverEmail(
         delivery,
-        `http://localhost:3000/verify?token=${token}&delivery=${encodeURIComponent(
+        `${config[env]
+          .webEndpoint}/verify?token=${token}&delivery=${encodeURIComponent(
           delivery
         )}`
       );
@@ -101,7 +105,7 @@ export async function verify(_, { delivery, token }) {
       throw new Error("Something went wrong");
     }
 
-    const jwtToken = jwt.sign({ id: modelToken.uid }, "pizza");
+    const jwtToken = jwt.sign({ id: modelToken.uid }, process.env.SECRET);
     return { token: jwtToken };
   } catch (e) {
     return e;
