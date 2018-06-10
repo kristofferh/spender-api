@@ -42,22 +42,19 @@ export async function getAll(
   }
 
   return await models.Tag.findAll({
-    attributes: [
-      "id",
-      "name",
-      "description",
-      "color",
-      [sequelize.fn("sum", sequelize.col("items.amount")), "total"]
-    ],
+    attributes: Object.keys(models.Tag.attributes).concat([
+      [sequelize.fn("SUM", sequelize.col("Items.amount")), "total"],
+      [sequelize.fn("COUNT", sequelize.col("Items.id")), "count"]
+    ]),
     include: {
       model: models.Item
     },
     includeIgnoreAttributes: false, // Weird bug.
     where,
-    limit,
     offset,
     order,
-    group: ["id"]
+    limit,
+    group: ["Tag.id"]
   });
 }
 
