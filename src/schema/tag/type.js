@@ -34,6 +34,14 @@ const TagType = new GraphQLObjectType({
         }
       }
     },
+    count: {
+      type: GraphQLFloat,
+      resolve(tag) {
+        if (tag && tag.dataValues) {
+          return Number(tag.dataValues.count);
+        }
+      }
+    },
     items: {
       type: new GraphQLList(ItemType),
       resolve(tag) {
