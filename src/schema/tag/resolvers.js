@@ -47,7 +47,8 @@ export async function getAll(
       [sequelize.fn("COUNT", sequelize.col("Items.id")), "count"]
     ]),
     include: {
-      model: models.Item
+      model: models.Item,
+      duplicating: false
     },
     includeIgnoreAttributes: false, // Weird bug.
     where,
