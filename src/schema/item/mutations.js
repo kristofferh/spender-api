@@ -20,6 +20,9 @@ const TagInput = new GraphQLInputObjectType({
       },
       description: {
         type: GraphQLString
+      },
+      color: {
+        type: GraphQLString
       }
     };
   }
