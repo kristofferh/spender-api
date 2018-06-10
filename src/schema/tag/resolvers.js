@@ -42,10 +42,6 @@ export async function getAll(
   }
 
   return await models.Tag.findAll({
-    attributes: ["id", "name", "description", "color"],
-    include: {
-      model: models.Item
-    },
     where,
     offset,
     order,
