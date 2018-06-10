@@ -42,22 +42,14 @@ export async function getAll(
   }
 
   return await models.Tag.findAll({
-    attributes: [
-      "id",
-      "name",
-      "description",
-      "color",
-      [sequelize.fn("sum", sequelize.col("items.amount")), "total"]
-    ],
+    attributes: ["id", "name", "description", "color"],
     include: {
       model: models.Item
     },
-    includeIgnoreAttributes: false, // Weird bug.
     where,
-    limit,
     offset,
     order,
-    group: ["id"]
+    limit
   });
 }
 
