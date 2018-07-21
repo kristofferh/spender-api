@@ -8,7 +8,8 @@ module.exports = {
       host: "localhost",
       dialect: "postgres",
       port: 5432, // 3306 for mysql,
-      logging: console.log
+      logging: console.log,
+      timezone: "utc"
     }
   },
   production: {
@@ -16,7 +17,8 @@ module.exports = {
     db: {
       use_env_variable: "DATABASE_URL",
       dialect: "postgres",
-      logging: null
+      logging: null,
+      timezone: "utc"
     }
   }
 };

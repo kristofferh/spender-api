@@ -36,8 +36,14 @@ export async function getByMonth(
     where: {
       UserId: id,
       [Sequelize.Op.and]: [
-        sequelize.where(sequelize.fn("YEAR", sequelize.col("date")), year),
-        sequelize.where(sequelize.fn("MONTH", sequelize.col("date")), month)
+        sequelize.where(
+          sequelize.fn("date_part", "year", sequelize.col("date")),
+          year
+        ),
+        sequelize.where(
+          sequelize.fn("date_part", "month", sequelize.col("date")),
+          month
+        )
       ]
     },
     limit: limit,
@@ -58,16 +64,17 @@ export async function getByTag(
 ) {
   const id = auth(ctx);
   const { sequelize, Sequelize } = models;
+  const yearSQL = sequelize.where(
+    sequelize.fn("date_part", "year", sequelize.col("date")),
+    year
+  );
+  const monthSQL = sequelize.where(
+    sequelize.fn("date_part", "month", sequelize.col("date")),
+    month
+  );
   const where = {
     UserId: id,
-    [Sequelize.Op.and]: [
-      year
-        ? sequelize.where(sequelize.fn("YEAR", sequelize.col("date")), year)
-        : null,
-      month
-        ? sequelize.where(sequelize.fn("MONTH", sequelize.col("date")), month)
-        : null
-    ]
+    [Sequelize.Op.and]: [year ? yearSQL : null, month ? monthSQL : null]
   };
   return await models.Item.findAll({
     include: {
