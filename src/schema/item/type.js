@@ -41,7 +41,6 @@ const ItemType = new GraphQLObjectType({
       description: "The tags used by item",
       args: connectionArgs,
       resolve(item, args) {
-        console.log("neat", args);
         return connectionFromPromisedArray(item.getTags(), args);
       }
     }
