@@ -93,11 +93,7 @@ export async function getByTag(
 }
 
 // Create item
-export async function create(
-  parentValue,
-  { date, amount, description, tags },
-  ctx
-) {
+export async function create({ date, amount, description, tags }, ctx) {
   const uid = auth(ctx);
   return await models.Item
     .create({
@@ -129,11 +125,7 @@ export async function create(
 }
 
 // Create item
-export async function edit(
-  parentValue,
-  { id, date, amount, description, tags },
-  ctx
-) {
+export async function edit({ id, date, amount, description, tags }, ctx) {
   const uid = auth(ctx);
   await models.Item.update(
     {
