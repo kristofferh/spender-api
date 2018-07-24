@@ -2,13 +2,22 @@ import {
   GraphQLObjectType,
   GraphQLString,
   GraphQLInt,
-  GraphQLFloat,
-  GraphQLList
+  GraphQLFloat
 } from "graphql";
+
+import {
+  connectionArgs,
+  connectionDefinitions,
+  connectionFromPromisedArray
+} from "graphql-relay";
 
 import GraphQLDate from "graphql-date";
 
 import TagType from "../tag/type";
+
+const { connectionType: ItemTagsConnection } = connectionDefinitions({
+  nodeType: TagType
+});
 
 const ItemType = new GraphQLObjectType({
   name: "Item",
@@ -28,9 +37,11 @@ const ItemType = new GraphQLObjectType({
       type: GraphQLString
     },
     tags: {
-      type: new GraphQLList(TagType),
-      resolve(item) {
-        return item.getTags();
+      type: ItemTagsConnection,
+      description: "The tags used by item",
+      args: connectionArgs,
+      resolve(item, args) {
+        return connectionFromPromisedArray(item.getTags(), args);
       }
     }
   })

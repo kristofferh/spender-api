@@ -7,6 +7,8 @@ import {
   GraphQLList
 } from "graphql";
 
+import { mutationWithClientMutationId } from "graphql-relay";
+
 import ItemType from "./type";
 import { create, remove, edit } from "./resolvers";
 
@@ -29,9 +31,9 @@ const TagInput = new GraphQLInputObjectType({
 });
 
 // Create item
-export const addItem = {
-  type: ItemType,
-  args: {
+export const addItem = mutationWithClientMutationId({
+  name: "AddItem",
+  inputFields: {
     date: {
       type: GraphQLString
     },
@@ -45,13 +47,19 @@ export const addItem = {
       type: new GraphQLList(TagInput)
     }
   },
-  resolve: create
-};
+  outputFields: {
+    item: {
+      type: ItemType,
+      resolve: payload => payload
+    }
+  },
+  mutateAndGetPayload: (input, context) => create(input, context)
+});
 
 // Edit item
-export const editItem = {
-  type: ItemType,
-  args: {
+export const editItem = mutationWithClientMutationId({
+  name: "EditItem",
+  inputFields: {
     id: {
       type: new GraphQLNonNull(GraphQLInt)
     },
@@ -68,8 +76,14 @@ export const editItem = {
       type: new GraphQLList(TagInput)
     }
   },
-  resolve: edit
-};
+  outputFields: {
+    item: {
+      type: ItemType,
+      resolve: payload => payload
+    }
+  },
+  mutateAndGetPayload: (input, context) => edit(input, context)
+});
 
 // Remove item
 export const removeItem = {

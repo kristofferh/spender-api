@@ -10,7 +10,9 @@ export const tags = {
     limit: { type: GraphQLInt },
     offset: { type: GraphQLInt },
     order: { type: GraphQLString },
-    group: { type: GraphQLString }
+    group: { type: GraphQLString },
+    month: { type: GraphQLInt },
+    year: { type: GraphQLInt }
   },
   resolve: getAll
 };
