@@ -1,4 +1,5 @@
 import {
+  GraphQLID,
   GraphQLString,
   GraphQLInt,
   GraphQLFloat,
@@ -7,7 +8,7 @@ import {
   GraphQLList
 } from "graphql";
 
-import { mutationWithClientMutationId } from "graphql-relay";
+import { mutationWithClientMutationId, fromGlobalId } from "graphql-relay";
 
 import ItemType from "./type";
 import { create, remove, edit } from "./resolvers";
@@ -61,7 +62,7 @@ export const editItem = mutationWithClientMutationId({
   name: "EditItem",
   inputFields: {
     id: {
-      type: new GraphQLNonNull(GraphQLInt)
+      type: new GraphQLNonNull(GraphQLID)
     },
     date: {
       type: GraphQLString
@@ -82,7 +83,10 @@ export const editItem = mutationWithClientMutationId({
       resolve: payload => payload
     }
   },
-  mutateAndGetPayload: (input, context) => edit(input, context)
+  mutateAndGetPayload: (input, context) => {
+    const { id } = fromGlobalId(input.id);
+    return edit({ ...input, id }, context);
+  }
 });
 
 // Remove item
