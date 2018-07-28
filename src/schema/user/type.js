@@ -1,12 +1,23 @@
 import {
-  GraphQLObjectType,
-  GraphQLString,
-  GraphQLInt,
-  GraphQLList
-} from "graphql";
+  connectionArgs,
+  connectionDefinitions,
+  connectionFromPromisedArray
+} from "graphql-relay";
+
+import { GraphQLObjectType, GraphQLString, GraphQLInt } from "graphql";
 
 import ItemType from "../item/type";
 import TagType from "../tag/type";
+
+const { connectionType: UserItemsConnection } = connectionDefinitions({
+  name: "UserItemsConnection",
+  nodeType: ItemType
+});
+
+const { connectionType: UserTagsConnection } = connectionDefinitions({
+  name: "UserTagsConnection",
+  nodeType: TagType
+});
 
 const UserType = new GraphQLObjectType({
   name: "User",
@@ -23,15 +34,19 @@ const UserType = new GraphQLObjectType({
         type: GraphQLString
       },
       items: {
-        type: new GraphQLList(ItemType),
-        resolve(user) {
-          return user.getItems();
+        type: UserItemsConnection,
+        description: "The user's items",
+        args: connectionArgs,
+        resolve(user, args) {
+          return connectionFromPromisedArray(user.getItems(), args);
         }
       },
       tags: {
-        type: new GraphQLList(TagType),
-        resolve(user) {
-          return user.getTags();
+        type: UserTagsConnection,
+        description: "The user's tags",
+        args: connectionArgs,
+        resolve(user, args) {
+          return connectionFromPromisedArray(user.getTags(), args);
         }
       }
     };
