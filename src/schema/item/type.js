@@ -19,6 +19,8 @@ import GraphQLDate from "graphql-date";
 import models from "../../models";
 import TagType from "../tag/type";
 
+import { itemTagsConnection } from "./connections";
+
 const { Item } = models;
 
 const { connectionType: ItemTagsConnection } = connectionDefinitions({
@@ -51,6 +53,12 @@ const ItemType = new GraphQLObjectType({
       resolve(item, args) {
         return connectionFromPromisedArray(item.getTags(), args);
       }
+    },
+    tagsAgain: {
+      description: "The tags belonging to the item",
+      type: itemTagsConnection.connectionType,
+      args: itemTagsConnection.connectionArgs,
+      resolve: itemTagsConnection.resolve
     }
   })
 });

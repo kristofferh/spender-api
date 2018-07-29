@@ -51,6 +51,13 @@ Object {
         "name": "orderBy",
         "type": "[UserItemsOrderBy]",
       },
+      Object {
+        "astNode": undefined,
+        "defaultValue": undefined,
+        "description": null,
+        "name": "description",
+        "type": "String",
+      },
     ],
     "description": "The user's items",
     "isDeprecated": false,

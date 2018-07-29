@@ -23,7 +23,12 @@ const UserType = new GraphQLObjectType({
       items: {
         description: "The user's items",
         type: userItemsConnection.connectionType,
-        args: userItemsConnection.connectionArgs,
+        args: {
+          ...userItemsConnection.connectionArgs,
+          description: {
+            type: GraphQLString
+          }
+        },
         resolve: userItemsConnection.resolve
       },
       tags: {

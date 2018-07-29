@@ -45,9 +45,16 @@ fs
 
 Object.keys(models).forEach(modelName => {
   if (models[modelName].associate) {
-    models[modelName].associate(models);
+    const associations = models[modelName].associate(models);
+    if (associations) {
+      associations.forEach(a => {
+        models[modelName][a.name] = a.association;
+      });
+    }
   }
 });
+
+console.log(models);
 
 models.sequelize = connection;
 models.Sequelize = Sequelize;

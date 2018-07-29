@@ -2,17 +2,16 @@ import { GraphQLInt, GraphQLEnumType } from "graphql";
 import { createConnection } from "graphql-sequelize";
 
 import models from "../../models";
-import { auth } from "../../services/auth";
 
 import ItemType from "../item/type";
 import TagType from "../tag/type";
 
-const { Item, Tag } = models;
+const { User, Sequelize } = models;
 
 export const userItemsConnection = createConnection({
   name: "UserItems",
   nodeType: ItemType,
-  target: Item, // Can be an association for parent related connections or a model for "anonymous" connections
+  target: User.Items, // Can be an association for parent related connections or a model for "anonymous" connections
   // if no orderBy is specified the model primary key will be used.
   orderBy: new GraphQLEnumType({
     name: "UserItemsOrderBy",
@@ -21,10 +20,12 @@ export const userItemsConnection = createConnection({
       AMOUNT: { value: ["amount", "DESC"] }
     }
   }),
-  before: (findOptions, args, context) => {
-    const id = auth(context);
-    findOptions.where = { UserId: id };
-    return findOptions;
+  where: function(key, value) {
+    if (key === "description") {
+      return { [key]: { [Sequelize.Op.iLike]: `%${value}%` } };
+    } else {
+      return { [key]: value };
+    }
   },
   connectionFields: {
     total: {
@@ -39,23 +40,18 @@ export const userItemsConnection = createConnection({
 export const userTagsConnection = createConnection({
   name: "UserTags",
   nodeType: TagType,
-  target: Tag,
+  target: User.Tags,
   orderBy: new GraphQLEnumType({
     name: "UserTagsOrderBy",
     values: {
       NAME: { value: ["name", "ASC"] }
     }
   }),
-  before: (findOptions, args, context) => {
-    const id = auth(context);
-    findOptions.where = { UserId: id };
-    return findOptions;
-  },
   connectionFields: {
     total: {
       type: GraphQLInt,
       resolve: ({ source }) => {
-        return source.countItems();
+        return source.countTags();
       }
     }
   }

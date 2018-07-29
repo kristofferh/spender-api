@@ -13,8 +13,18 @@ const Tag = (sequelize, DataTypes) => {
   });
 
   Tag.associate = models => {
-    Tag.belongsTo(models.User);
-    Tag.belongsToMany(models.Item, { through: "ItemTags" });
+    const User = Tag.belongsTo(models.User);
+    const Items = Tag.belongsToMany(models.Item, { through: "ItemTags" });
+    return [
+      {
+        name: "User",
+        association: User
+      },
+      {
+        name: "Items",
+        association: Items
+      }
+    ];
   };
 
   return Tag;

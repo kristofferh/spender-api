@@ -1,4 +1,4 @@
-const Item = (sequelize, DataTypes) => {
+let Item = (sequelize, DataTypes) => {
   const Item = sequelize.define("Item", {
     date: {
       type: DataTypes.DATE,
@@ -16,12 +16,22 @@ const Item = (sequelize, DataTypes) => {
   });
 
   Item.associate = models => {
-    Item.belongsTo(models.User, {
+    const Users = Item.belongsTo(models.User, {
       onDelete: "CASCADE"
     });
-    Item.belongsToMany(models.Tag, {
+    const Tags = Item.belongsToMany(models.Tag, {
       through: "ItemTags"
     });
+    return [
+      {
+        name: "Users",
+        association: Users
+      },
+      {
+        name: "Tags",
+        association: Tags
+      }
+    ];
   };
 
   return Item;
