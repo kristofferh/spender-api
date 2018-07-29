@@ -54,8 +54,6 @@ Object.keys(models).forEach(modelName => {
   }
 });
 
-console.log(models);
-
 models.sequelize = connection;
 models.Sequelize = Sequelize;
 
