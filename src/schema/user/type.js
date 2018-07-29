@@ -8,7 +8,6 @@ import {
   GraphQLObjectType,
   GraphQLString,
   GraphQLInt,
-  GraphQLBoolean,
   GraphQLEnumType
 } from "graphql";
 import { createConnection } from "graphql-sequelize";
