@@ -1,12 +1,17 @@
-import { GraphQLObjectType, GraphQLString, GraphQLFloat } from "graphql";
+import {
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLFloat,
+  GraphQLID,
+  GraphQLNonNull
+} from "graphql";
+
+import { createNodeInterface } from "graphql-sequelize";
 
 import {
   connectionArgs,
   connectionDefinitions,
-  connectionFromPromisedArray,
-  nodeDefinitions,
-  fromGlobalId,
-  globalIdField
+  connectionFromPromisedArray
 } from "graphql-relay";
 
 import GraphQLDate from "graphql-date";
@@ -14,27 +19,22 @@ import GraphQLDate from "graphql-date";
 import models from "../../models";
 import TagType from "../tag/type";
 
+const { Item } = models;
+
 const { connectionType: ItemTagsConnection } = connectionDefinitions({
   nodeType: TagType
 });
 
-const { nodeInterface } = nodeDefinitions(
-  globalId => {
-    const { id } = fromGlobalId(globalId);
-    return models.Item.findById(id);
-  },
-  obj => {
-    console.log("hi", obj);
-    //return obj.ships ? factionType : shipType;
-  }
-);
+const { nodeInterface } = createNodeInterface(Item);
 
 const ItemType = new GraphQLObjectType({
-  name: "Item",
+  name: Item.name,
   description: "This represents an Item",
   interfaces: [nodeInterface],
   fields: () => ({
-    id: globalIdField(),
+    id: {
+      type: new GraphQLNonNull(GraphQLID) // @todo: replace with globalIdField()
+    },
     date: {
       type: GraphQLDate
     },

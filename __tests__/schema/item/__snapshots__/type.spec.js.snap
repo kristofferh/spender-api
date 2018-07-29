@@ -14,7 +14,7 @@ Object {
     "name": "id",
     "type": "Int",
   },
-  "item": Object {
+  "items": Object {
     "args": Array [
       Object {
         "astNode": undefined,
@@ -54,7 +54,7 @@ Object {
     ],
     "description": "The user's items",
     "isDeprecated": false,
-    "name": "item",
+    "name": "items",
     "resolve": [Function],
     "type": "UserItemsConnection",
   },

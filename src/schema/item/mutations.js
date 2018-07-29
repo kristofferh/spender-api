@@ -1,7 +1,6 @@
 import {
   GraphQLID,
   GraphQLString,
-  GraphQLInt,
   GraphQLFloat,
   GraphQLNonNull,
   GraphQLInputObjectType,
@@ -84,8 +83,8 @@ export const editItem = mutationWithClientMutationId({
     }
   },
   mutateAndGetPayload: (input, context) => {
-    const { id } = fromGlobalId(input.id);
-    return edit({ ...input, id }, context);
+    // const { id } = fromGlobalId(input.id);
+    return edit(input, context);
   }
 });
 
@@ -94,7 +93,7 @@ export const removeItem = {
   type: ItemType,
   args: {
     id: {
-      type: GraphQLInt
+      type: GraphQLID
     }
   },
   resolve: remove

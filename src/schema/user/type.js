@@ -69,7 +69,7 @@ const UserType = new GraphQLObjectType({
       token: {
         type: GraphQLString
       },
-      item: {
+      items: {
         description: "The user's items",
         type: userItemConnection.connectionType,
         args: userItemConnection.connectionArgs,
