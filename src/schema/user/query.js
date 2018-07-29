@@ -1,7 +1,7 @@
-import { GraphQLInt, GraphQLList } from "graphql";
+import { GraphQLList } from "graphql";
 
 import UserType from "./type";
-import { getAll, getById } from "./resolvers";
+import { getAll, currentUser } from "./resolvers";
 
 // All users
 export const users = {
@@ -9,11 +9,8 @@ export const users = {
   resolve: getAll
 };
 
-// User by ID
+// Current user.
 export const user = {
   type: UserType,
-  args: {
-    id: { type: GraphQLInt }
-  },
-  resolve: getById
+  resolve: currentUser
 };

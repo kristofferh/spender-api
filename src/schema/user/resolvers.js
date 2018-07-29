@@ -1,3 +1,5 @@
+import { resolver } from "graphql-sequelize";
+
 import models from "../../models";
 import { auth } from "../../services/auth";
 
@@ -7,6 +9,15 @@ export async function getById(_, __, ctx) {
   // @todo: add ability to look up user id with admin scope.
   return await models.User.findOne({ where: { id: uid } });
 }
+
+export const currentUser = resolver(models.User, {
+  before: (findOptions, args, context) => {
+    const uid = auth(context);
+    // @todo: add ability to look up user id with admin scope.
+    findOptions.where = { id: uid };
+    return findOptions;
+  }
+});
 
 // Get all users
 export async function getAll() {

@@ -1,59 +1,10 @@
-import {
-  connectionArgs,
-  connectionDefinitions,
-  connectionFromPromisedArray
-} from "graphql-relay";
-
-import {
-  GraphQLObjectType,
-  GraphQLString,
-  GraphQLInt,
-  GraphQLEnumType
-} from "graphql";
-import { createConnection } from "graphql-sequelize";
+import { GraphQLObjectType, GraphQLString, GraphQLInt } from "graphql";
 
 import models from "../../models";
-import ItemType from "../item/type";
-import TagType from "../tag/type";
-import { auth } from "../../services/auth";
 
-const { User, Item } = models;
+import { userItemsConnection, userTagsConnection } from "./connections";
 
-const { connectionType: UserTagsConnection } = connectionDefinitions({
-  name: "UserTags",
-  nodeType: TagType
-});
-
-const userItemConnection = createConnection({
-  name: "UserItems",
-  nodeType: ItemType,
-  target: Item, // Can be an association for parent related connections or a model for "anonymous" connections
-  // if no orderBy is specified the model primary key will be used.
-  orderBy: new GraphQLEnumType({
-    name: "UserItemsOrderBy",
-    values: {
-      DATE: { value: ["date", "DESC"] }, // The first ENUM value will be the default order. The direction will be used for `first`, will automatically be inversed for `last` lookups.
-      AMOUNT: { value: ["amount", "DESC"] }
-    }
-  }),
-  before: (findOptions, args, context) => {
-    const id = auth(context);
-    findOptions.where = { UserId: id };
-    return findOptions;
-  },
-  connectionFields: {
-    total: {
-      type: GraphQLInt,
-      resolve: ({ source }) => {
-        /*
-         * We return a object containing the source, edges and more as the connection result
-         * You there for need to extract source from the usual source argument
-         */
-        return source.countItems();
-      }
-    }
-  }
-});
+const { User } = models;
 
 const UserType = new GraphQLObjectType({
   name: User.name,
@@ -71,17 +22,15 @@ const UserType = new GraphQLObjectType({
       },
       items: {
         description: "The user's items",
-        type: userItemConnection.connectionType,
-        args: userItemConnection.connectionArgs,
-        resolve: userItemConnection.resolve
+        type: userItemsConnection.connectionType,
+        args: userItemsConnection.connectionArgs,
+        resolve: userItemsConnection.resolve
       },
       tags: {
-        type: UserTagsConnection,
         description: "The user's tags",
-        args: connectionArgs,
-        resolve(user, args) {
-          return connectionFromPromisedArray(user.getTags(), args);
-        }
+        type: userTagsConnection.connectionType,
+        args: userTagsConnection.connectionArgs,
+        resolve: userTagsConnection.resolve
       }
     };
   }

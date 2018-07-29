@@ -7,7 +7,7 @@ import {
   GraphQLList
 } from "graphql";
 
-import { mutationWithClientMutationId, fromGlobalId } from "graphql-relay";
+import { mutationWithClientMutationId } from "graphql-relay";
 
 import ItemType from "./type";
 import { create, remove, edit } from "./resolvers";

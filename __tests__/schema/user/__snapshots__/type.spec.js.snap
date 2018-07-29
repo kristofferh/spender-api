@@ -88,6 +88,13 @@ Object {
         "name": "last",
         "type": "Int",
       },
+      Object {
+        "astNode": undefined,
+        "defaultValue": undefined,
+        "description": null,
+        "name": "orderBy",
+        "type": "[UserTagsOrderBy]",
+      },
     ],
     "description": "The user's tags",
     "isDeprecated": false,
