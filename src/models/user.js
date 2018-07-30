@@ -26,8 +26,18 @@ const User = (sequelize, DataTypes) => {
   });
 
   User.associate = models => {
-    User.hasMany(models.Item, { onDelete: "cascade" });
-    User.hasMany(models.Tag, { onDelete: "cascade" });
+    const Items = User.hasMany(models.Item, { onDelete: "cascade" });
+    const Tags = User.hasMany(models.Tag, { onDelete: "cascade" });
+    return [
+      {
+        name: "Items",
+        association: Items
+      },
+      {
+        name: "Tags",
+        association: Tags
+      }
+    ];
   };
 
   return User;

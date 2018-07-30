@@ -1,15 +1,13 @@
-import {
-  GraphQLObjectType,
-  GraphQLString,
-  GraphQLInt,
-  GraphQLList
-} from "graphql";
+import { GraphQLObjectType, GraphQLString, GraphQLInt } from "graphql";
 
-import ItemType from "../item/type";
-import TagType from "../tag/type";
+import models from "../../models";
+
+import { userItemsConnection, userTagsConnection } from "./connections";
+
+const { User } = models;
 
 const UserType = new GraphQLObjectType({
-  name: "User",
+  name: User.name,
   description: "This represents a User",
   fields: () => {
     return {
@@ -23,16 +21,21 @@ const UserType = new GraphQLObjectType({
         type: GraphQLString
       },
       items: {
-        type: new GraphQLList(ItemType),
-        resolve(user) {
-          return user.getItems();
-        }
+        description: "The user's items",
+        type: userItemsConnection.connectionType,
+        args: {
+          ...userItemsConnection.connectionArgs,
+          description: {
+            type: GraphQLString
+          }
+        },
+        resolve: userItemsConnection.resolve
       },
       tags: {
-        type: new GraphQLList(TagType),
-        resolve(user) {
-          return user.getTags();
-        }
+        description: "The user's tags",
+        type: userTagsConnection.connectionType,
+        args: userTagsConnection.connectionArgs,
+        resolve: userTagsConnection.resolve
       }
     };
   }

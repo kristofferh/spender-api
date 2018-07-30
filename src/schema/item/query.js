@@ -1,4 +1,10 @@
-import { GraphQLInt, GraphQLList, GraphQLString } from "graphql";
+import {
+  GraphQLID,
+  GraphQLInt,
+  GraphQLList,
+  GraphQLString,
+  GraphQLNonNull
+} from "graphql";
 
 import ItemType from "./type";
 import { getAll, getById, getByMonth, getByTag } from "./resolvers";
@@ -45,7 +51,7 @@ export const itemsByTag = {
 export const item = {
   type: ItemType,
   args: {
-    id: { type: GraphQLInt }
+    id: { type: new GraphQLNonNull(GraphQLID) }
   },
   resolve: getById
 };

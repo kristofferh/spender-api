@@ -17,7 +17,7 @@ const UserToken = (sequelize, DataTypes) => {
   });
 
   UserToken.associate = models => {
-    UserToken.belongsTo(models.User, {
+    const User = UserToken.belongsTo(models.User, {
       foreignKey: {
         name: "uid",
         allowNull: false,
@@ -25,6 +25,12 @@ const UserToken = (sequelize, DataTypes) => {
       },
       onDelete: "CASCADE"
     });
+    return [
+      {
+        name: "User",
+        association: User
+      }
+    ];
   };
 
   return UserToken;

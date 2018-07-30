@@ -1,9 +1,12 @@
 import {
   GraphQLObjectType,
   GraphQLString,
-  GraphQLInt,
-  GraphQLFloat
+  GraphQLFloat,
+  GraphQLID,
+  GraphQLNonNull
 } from "graphql";
+
+import { createNodeInterface } from "graphql-sequelize";
 
 import {
   connectionArgs,
@@ -13,19 +16,26 @@ import {
 
 import GraphQLDate from "graphql-date";
 
+import models from "../../models";
 import TagType from "../tag/type";
+
+import { itemTagsConnection } from "./connections";
+
+const { Item } = models;
 
 const { connectionType: ItemTagsConnection } = connectionDefinitions({
   nodeType: TagType
 });
 
-const ItemType = new GraphQLObjectType({
-  name: "Item",
-  description: "This represents an Item",
+const { nodeInterface } = createNodeInterface(Item);
 
+const ItemType = new GraphQLObjectType({
+  name: Item.name,
+  description: "This represents an Item",
+  interfaces: [nodeInterface],
   fields: () => ({
     id: {
-      type: GraphQLInt
+      type: new GraphQLNonNull(GraphQLID) // @todo: replace with globalIdField()
     },
     date: {
       type: GraphQLDate
@@ -43,6 +53,12 @@ const ItemType = new GraphQLObjectType({
       resolve(item, args) {
         return connectionFromPromisedArray(item.getTags(), args);
       }
+    },
+    tagsAgain: {
+      description: "The tags belonging to the item",
+      type: itemTagsConnection.connectionType,
+      args: itemTagsConnection.connectionArgs,
+      resolve: itemTagsConnection.resolve
     }
   })
 });
