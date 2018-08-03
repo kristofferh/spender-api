@@ -1,4 +1,9 @@
-import { GraphQLObjectType, GraphQLString, GraphQLInt } from "graphql";
+import {
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLInt,
+  GraphQLObject
+} from "graphql";
 
 import models from "../../models";
 

@@ -8,24 +8,13 @@ import {
 
 import { createNodeInterface } from "graphql-sequelize";
 
-import {
-  connectionArgs,
-  connectionDefinitions,
-  connectionFromPromisedArray
-} from "graphql-relay";
-
 import GraphQLDate from "graphql-date";
 
 import models from "../../models";
-import TagType from "../tag/type";
 
 import { itemTagsConnection } from "./connections";
 
 const { Item } = models;
-
-const { connectionType: ItemTagsConnection } = connectionDefinitions({
-  nodeType: TagType
-});
 
 const { nodeInterface } = createNodeInterface(Item);
 
@@ -47,14 +36,6 @@ const ItemType = new GraphQLObjectType({
       type: GraphQLString
     },
     tags: {
-      type: ItemTagsConnection,
-      description: "The tags used by item",
-      args: connectionArgs,
-      resolve(item, args) {
-        return connectionFromPromisedArray(item.getTags(), args);
-      }
-    },
-    tagsAgain: {
       description: "The tags belonging to the item",
       type: itemTagsConnection.connectionType,
       args: itemTagsConnection.connectionArgs,

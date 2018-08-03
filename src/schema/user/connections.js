@@ -20,7 +20,7 @@ export const userItemsConnection = createConnection({
       AMOUNT: { value: ["amount", "DESC"] }
     }
   }),
-  where: function(key, value) {
+  where: (key, value) => {
     if (key === "description") {
       return { [key]: { [Sequelize.Op.iLike]: `%${value}%` } };
     } else {
@@ -28,7 +28,7 @@ export const userItemsConnection = createConnection({
     }
   },
   connectionFields: {
-    total: {
+    count: {
       type: GraphQLInt,
       resolve: ({ source }) => {
         return source.countItems();
