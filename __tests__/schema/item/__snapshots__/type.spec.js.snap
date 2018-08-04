@@ -54,8 +54,22 @@ Object {
       Object {
         "astNode": undefined,
         "defaultValue": undefined,
-        "description": null,
+        "description": "Search by description",
         "name": "description",
+        "type": "String",
+      },
+      Object {
+        "astNode": undefined,
+        "defaultValue": undefined,
+        "description": "The start date. Can be any date string in the order yyyy-mm-dd hh:mm",
+        "name": "startDate",
+        "type": "String",
+      },
+      Object {
+        "astNode": undefined,
+        "defaultValue": undefined,
+        "description": "The end date. Can be any date string in the order yyyy-mm-dd hh:mm",
+        "name": "endDate",
         "type": "String",
       },
     ],

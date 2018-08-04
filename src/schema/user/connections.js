@@ -1,6 +1,5 @@
 import { GraphQLInt, GraphQLEnumType } from "graphql";
 import { createConnection } from "graphql-sequelize";
-import moment from "moment";
 
 import models from "../../models";
 
