@@ -1,12 +1,13 @@
 import { GraphQLInt, GraphQLEnumType } from "graphql";
 import { createConnection } from "graphql-sequelize";
+import moment from "moment";
 
 import models from "../../models";
 
 import ItemType from "../item/type";
 import TagType from "../tag/type";
 
-const { User, Sequelize } = models;
+const { User, Sequelize: { Op } } = models;
 
 export const userItemsConnection = createConnection({
   name: "UserItems",
@@ -20,12 +21,34 @@ export const userItemsConnection = createConnection({
       AMOUNT: { value: ["amount", "DESC"] }
     }
   }),
-  where: (key, value) => {
+  where: (key, value, previousWhere) => {
     if (key === "description") {
-      return { [key]: { [Sequelize.Op.iLike]: `%${value}%` } };
-    } else {
-      return { [key]: value };
+      return {
+        [key]: { [Op.iLike]: `%${value}%` }
+      };
     }
+
+    if (key === "startDate") {
+      const existingDate = previousWhere.date || {};
+      return {
+        date: {
+          ...existingDate,
+          [Op.gte]: value
+        }
+      };
+    }
+
+    if (key === "endDate") {
+      const existingDate = previousWhere.date || {};
+      return {
+        date: {
+          ...existingDate,
+          [Op.lte]: value
+        }
+      };
+    }
+
+    return { [key]: value };
   },
   connectionFields: {
     count: {

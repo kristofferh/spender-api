@@ -1,9 +1,4 @@
-import {
-  GraphQLObjectType,
-  GraphQLString,
-  GraphQLInt,
-  GraphQLObject
-} from "graphql";
+import { GraphQLObjectType, GraphQLString, GraphQLInt } from "graphql";
 
 import models from "../../models";
 
@@ -31,6 +26,12 @@ const UserType = new GraphQLObjectType({
         args: {
           ...userItemsConnection.connectionArgs,
           description: {
+            type: GraphQLString
+          },
+          startDate: {
+            type: GraphQLString
+          },
+          endDate: {
             type: GraphQLString
           }
         },
