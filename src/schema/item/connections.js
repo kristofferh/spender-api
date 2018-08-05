@@ -17,14 +17,11 @@ export const itemTagsConnection = createConnection({
       NAME: { value: ["name", "ASC"] }
     }
   }),
-  before: findOptions => {
-    return findOptions;
-  },
   connectionFields: {
-    total: {
+    count: {
       type: GraphQLInt,
       resolve: ({ source }) => {
-        return source.countItems();
+        return source.countTags();
       }
     }
   }

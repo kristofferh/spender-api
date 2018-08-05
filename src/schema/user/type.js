@@ -26,7 +26,18 @@ const UserType = new GraphQLObjectType({
         args: {
           ...userItemsConnection.connectionArgs,
           description: {
-            type: GraphQLString
+            type: GraphQLString,
+            description: "Search by description"
+          },
+          startDate: {
+            type: GraphQLString,
+            description:
+              "The start date. Can be any date string in the order yyyy-mm-dd hh:mm"
+          },
+          endDate: {
+            type: GraphQLString,
+            description:
+              "The end date. Can be any date string in the order yyyy-mm-dd hh:mm"
           }
         },
         resolve: userItemsConnection.resolve
