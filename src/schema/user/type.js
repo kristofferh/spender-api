@@ -4,6 +4,7 @@ import models from "../../models";
 
 import { userItemsConnection, userTagsConnection } from "./connections";
 
+import { item } from "../item/query";
 const { User } = models;
 
 const UserType = new GraphQLObjectType({
@@ -20,6 +21,7 @@ const UserType = new GraphQLObjectType({
       token: {
         type: GraphQLString
       },
+      item,
       items: {
         description: "The user's items",
         type: userItemsConnection.connectionType,
