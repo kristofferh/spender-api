@@ -14,6 +14,21 @@ Object {
     "name": "id",
     "type": "Int",
   },
+  "item": Object {
+    "args": Array [
+      Object {
+        "astNode": undefined,
+        "defaultValue": undefined,
+        "description": null,
+        "name": "id",
+        "type": "ID!",
+      },
+    ],
+    "isDeprecated": false,
+    "name": "item",
+    "resolve": [Function],
+    "type": "Item",
+  },
   "items": Object {
     "args": Array [
       Object {
