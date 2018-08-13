@@ -3,8 +3,13 @@ import { auth } from "../../services/auth";
 
 // Get item by ID
 export async function getById(parentValue, { id }, ctx) {
-  auth(ctx);
-  return await models.Item.findById(id);
+  const uid = auth(ctx);
+  return await models.Item.findOne({
+    where: {
+      UserId: uid,
+      id
+    }
+  });
 }
 
 // Get all items

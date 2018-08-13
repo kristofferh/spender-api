@@ -1,5 +1,7 @@
-import { GraphQLInt, GraphQLEnumType } from "graphql";
+import { GraphQLInt, GraphQLFloat, GraphQLEnumType } from "graphql";
 import { createConnection } from "graphql-sequelize";
+
+import { avg, sum, toDecimal, median } from "../../utils/math";
 
 import models from "../../models";
 
@@ -50,10 +52,48 @@ export const userItemsConnection = createConnection({
     return { [key]: value };
   },
   connectionFields: {
-    count: {
+    totalCount: {
       type: GraphQLInt,
+      description: "The total number of items.",
       resolve: ({ source }) => {
         return source.countItems();
+      }
+    },
+    count: {
+      type: GraphQLInt,
+      description: "The number of items in the result set.",
+      resolve: ({ source, where }) => {
+        return source.countItems({ where });
+      }
+    },
+    sum: {
+      type: GraphQLFloat,
+      description: "The sum of the items in the result set.",
+      resolve: ({ source, where }) => {
+        return source.getItems({ where }).then(items => {
+          const values = items.map(item => Number(item.dataValues.amount));
+          return toDecimal(sum(values));
+        });
+      }
+    },
+    avg: {
+      type: GraphQLFloat,
+      description: "The mean of the items in the result set.",
+      resolve: ({ source, where }) => {
+        return source.getItems({ where }).then(items => {
+          const values = items.map(item => Number(item.dataValues.amount));
+          return toDecimal(avg(values));
+        });
+      }
+    },
+    median: {
+      type: GraphQLFloat,
+      description: "The median of the items in the result set.",
+      resolve: ({ source, where }) => {
+        return source.getItems({ where }).then(items => {
+          const values = items.map(item => Number(item.dataValues.amount));
+          return items.length ? toDecimal(median(values)) : 0;
+        });
       }
     }
   }
