@@ -115,6 +115,9 @@ export async function create({ date, amount, description, tags }, ctx) {
               where: {
                 name: tag.name.toLowerCase(),
                 UserId: uid
+              },
+              defaults: {
+                color: tag.color
               }
             });
           })
