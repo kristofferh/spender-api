@@ -1,5 +1,6 @@
 import models from "../../models";
 import { auth } from "../../services/auth";
+import { randomColor } from "../../utils/color";
 
 // Get item by ID
 export async function getById(parentValue, { id }, ctx) {
@@ -115,6 +116,9 @@ export async function create({ date, amount, description, tags }, ctx) {
               where: {
                 name: tag.name.toLowerCase(),
                 UserId: uid
+              },
+              defaults: {
+                color: tag.color || randomColor()
               }
             });
           })
@@ -155,6 +159,9 @@ export async function edit({ id, date, amount, description, tags }, ctx) {
           where: {
             name: tag.name.toLowerCase(),
             UserId: uid
+          },
+          defaults: {
+            color: tag.color || randomColor()
           }
         });
       })
