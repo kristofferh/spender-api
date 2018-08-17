@@ -159,6 +159,9 @@ export async function edit({ id, date, amount, description, tags }, ctx) {
           where: {
             name: tag.name.toLowerCase(),
             UserId: uid
+          },
+          defaults: {
+            color: tag.color || randomColor()
           }
         });
       })
