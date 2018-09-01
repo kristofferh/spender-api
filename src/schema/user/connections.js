@@ -109,6 +109,30 @@ export const userTagsConnection = createConnection({
       NAME: { value: ["name", "ASC"] }
     }
   }),
+  where: (key, value, previousWhere) => {
+    console.log(previousWhere);
+    // if (key === "startDate") {
+    //   const existingDate = previousWhere.date || {};
+    //   return {
+    //     date: {
+    //       ...existingDate,
+    //       [Op.gte]: value
+    //     }
+    //   };
+    // }
+
+    // if (key === "endDate") {
+    //   const existingDate = previousWhere.date || {};
+    //   return {
+    //     date: {
+    //       ...existingDate,
+    //       [Op.lte]: value
+    //     }
+    //   };
+    // }
+
+    return { [key]: value };
+  },
   connectionFields: {
     total: {
       type: GraphQLInt,
