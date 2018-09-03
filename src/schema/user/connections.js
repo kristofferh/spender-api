@@ -8,6 +8,8 @@ import models from "../../models";
 import ItemType from "../item/type";
 import TagType from "../tag/type";
 
+import { getById } from "../tag/resolvers";
+
 const { User, Sequelize: { Op } } = models;
 
 export const userItemsConnection = createConnection({
@@ -109,35 +111,77 @@ export const userTagsConnection = createConnection({
       NAME: { value: ["name", "ASC"] }
     }
   }),
-  where: (key, value, previousWhere) => {
-    console.log(previousWhere);
-    // if (key === "startDate") {
-    //   const existingDate = previousWhere.date || {};
-    //   return {
-    //     date: {
-    //       ...existingDate,
-    //       [Op.gte]: value
-    //     }
-    //   };
-    // }
-
-    // if (key === "endDate") {
-    //   const existingDate = previousWhere.date || {};
-    //   return {
-    //     date: {
-    //       ...existingDate,
-    //       [Op.lte]: value
-    //     }
-    //   };
-    // }
-
-    return { [key]: value };
-  },
   connectionFields: {
     total: {
       type: GraphQLInt,
       resolve: ({ source }) => {
         return source.countTags();
+      }
+    }
+  },
+  edgeFields: {
+    total: {
+      type: GraphQLFloat,
+      resolve: ({ node, sourceArgs }, _, ctx) => {
+        let where = {};
+        let date = {};
+        const { startDate, endDate } = sourceArgs;
+        if (startDate) {
+          date = {
+            [Op.gte]: startDate
+          };
+          where = {
+            date
+          };
+        }
+
+        if (endDate) {
+          where = {
+            date: {
+              ...date,
+              [Op.lte]: endDate
+            }
+          };
+        }
+
+        return getById(node, where, ctx).then(item => {
+          if (item) {
+            return item.dataValues.total;
+          }
+          return 0;
+        });
+      }
+    },
+    count: {
+      type: GraphQLInt,
+      resolve: ({ node, sourceArgs }, _, ctx) => {
+        // @todo: combine this into one helper function.
+        const { startDate, endDate } = sourceArgs;
+        let where = {};
+        let date = {};
+        if (startDate) {
+          date = {
+            [Op.gte]: startDate
+          };
+          where = {
+            date
+          };
+        }
+
+        if (endDate) {
+          where = {
+            date: {
+              ...date,
+              [Op.lte]: endDate
+            }
+          };
+        }
+        return getById(node, where, ctx).then(item => {
+          if (item) {
+            return item.dataValues.count;
+          }
+          return 0;
+        });
       }
     }
   }

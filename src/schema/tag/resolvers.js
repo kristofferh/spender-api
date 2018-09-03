@@ -1,10 +1,27 @@
 import models from "../../models";
 import { auth } from "../../services/auth";
 
-// Get tag by ID
-export async function getById(parentValue, { id }, ctx) {
-  auth(ctx);
-  return await models.Tag.findById(id);
+export async function getById({ id }, associationWhere, ctx) {
+  const uid = auth(ctx);
+  const { sequelize } = models;
+  const where = {
+    UserId: uid,
+    id
+  };
+  return await models.Tag.findOne({
+    attributes: Object.keys(models.Tag.attributes).concat([
+      [sequelize.fn("SUM", sequelize.col("Items.amount")), "total"],
+      [sequelize.fn("COUNT", sequelize.col("Items.id")), "count"]
+    ]),
+    include: {
+      model: models.Item,
+      duplicating: false,
+      where: associationWhere
+    },
+    includeIgnoreAttributes: false, // Weird bug.
+    where,
+    group: ["Tag.id"]
+  });
 }
 
 // Get all tags, optionally by year and month.
