@@ -1,6 +1,7 @@
 import { GraphQLInt, GraphQLFloat, GraphQLEnumType } from "graphql";
 import { createConnection } from "graphql-sequelize";
 
+import { auth } from "../../services/auth";
 import { avg, sum, toDecimal, median } from "../../utils/math";
 
 import models from "../../models";
@@ -10,7 +11,30 @@ import TagType from "../tag/type";
 
 import { getById } from "../tag/resolvers";
 
-const { User, Sequelize: { Op } } = models;
+const { User, Sequelize: { Op }, sequelize, Item } = models;
+
+const whereDates = ({ startDate, endDate }) => {
+  let where = {};
+  let date = {};
+  if (startDate) {
+    date = {
+      [Op.gte]: startDate
+    };
+    where = {
+      date
+    };
+  }
+
+  if (endDate) {
+    where = {
+      date: {
+        ...date,
+        [Op.lte]: endDate
+      }
+    };
+  }
+  return where;
+};
 
 export const userItemsConnection = createConnection({
   name: "UserItems",
@@ -73,7 +97,7 @@ export const userItemsConnection = createConnection({
       description: "The sum of the items in the result set.",
       resolve: ({ source, where }) => {
         return source.getItems({ where }).then(items => {
-          const values = items.map(item => Number(item.dataValues.amount));
+          const values = items.map(item => Number(item.amount));
           return toDecimal(sum(values));
         });
       }
@@ -83,7 +107,7 @@ export const userItemsConnection = createConnection({
       description: "The mean of the items in the result set.",
       resolve: ({ source, where }) => {
         return source.getItems({ where }).then(items => {
-          const values = items.map(item => Number(item.dataValues.amount));
+          const values = items.map(item => Number(item.amount));
           return toDecimal(avg(values));
         });
       }
@@ -93,7 +117,7 @@ export const userItemsConnection = createConnection({
       description: "The median of the items in the result set.",
       resolve: ({ source, where }) => {
         return source.getItems({ where }).then(items => {
-          const values = items.map(item => Number(item.dataValues.amount));
+          const values = items.map(item => Number(item.amount));
           return items.length ? toDecimal(median(values)) : 0;
         });
       }
@@ -108,11 +132,21 @@ export const userTagsConnection = createConnection({
   orderBy: new GraphQLEnumType({
     name: "UserTagsOrderBy",
     values: {
-      NAME: { value: ["name", "ASC"] }
+      NAME: { value: ["name", "ASC"] },
+      SUM: {
+        value: [
+          (source, args, ctx, info) => {
+            return sequelize.literal(
+              `(SELECT SUM("Items"."amount") FROM "Items" WHERE "Items"."UserId" = "User"."id")`
+            );
+          },
+          "ASC"
+        ]
+      }
     }
   }),
   connectionFields: {
-    total: {
+    count: {
       type: GraphQLInt,
       resolve: ({ source }) => {
         return source.countTags();
@@ -120,68 +154,22 @@ export const userTagsConnection = createConnection({
     }
   },
   edgeFields: {
-    total: {
+    sumItems: {
       type: GraphQLFloat,
-      resolve: ({ node, sourceArgs }, _, ctx) => {
-        let where = {};
-        let date = {};
-        const { startDate, endDate } = sourceArgs;
-        if (startDate) {
-          date = {
-            [Op.gte]: startDate
-          };
-          where = {
-            date
-          };
-        }
-
-        if (endDate) {
-          where = {
-            date: {
-              ...date,
-              [Op.lte]: endDate
-            }
-          };
-        }
-
-        return getById(node, where, ctx).then(item => {
-          if (item) {
-            return item.dataValues.total;
-          }
-          return 0;
+      resolve: ({ node, sourceArgs }) => {
+        const where = whereDates(sourceArgs);
+        return node.getItems({ where }).then(items => {
+          console.log(items);
+          const values = items.map(item => Number(item.amount));
+          return toDecimal(sum(values));
         });
       }
     },
-    count: {
+    countItems: {
       type: GraphQLInt,
-      resolve: ({ node, sourceArgs }, _, ctx) => {
-        // @todo: combine this into one helper function.
-        const { startDate, endDate } = sourceArgs;
-        let where = {};
-        let date = {};
-        if (startDate) {
-          date = {
-            [Op.gte]: startDate
-          };
-          where = {
-            date
-          };
-        }
-
-        if (endDate) {
-          where = {
-            date: {
-              ...date,
-              [Op.lte]: endDate
-            }
-          };
-        }
-        return getById(node, where, ctx).then(item => {
-          if (item) {
-            return item.dataValues.count;
-          }
-          return 0;
-        });
+      resolve: ({ node, sourceArgs }) => {
+        const where = whereDates(sourceArgs);
+        return node.countItems({ where });
       }
     }
   }
