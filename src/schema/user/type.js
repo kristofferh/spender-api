@@ -47,7 +47,19 @@ const UserType = new GraphQLObjectType({
       tags: {
         description: "The user's tags",
         type: userTagsConnection.connectionType,
-        args: userTagsConnection.connectionArgs,
+        args: {
+          ...userTagsConnection.connectionArgs,
+          startDate: {
+            type: GraphQLString,
+            description:
+              "The start date. Can be any date string in the order yyyy-mm-dd hh:mm"
+          },
+          endDate: {
+            type: GraphQLString,
+            description:
+              "The end date. Can be any date string in the order yyyy-mm-dd hh:mm"
+          }
+        },
         resolve: userTagsConnection.resolve
       }
     };

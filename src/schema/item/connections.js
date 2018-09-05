@@ -8,7 +8,7 @@ import TagType from "../tag/type";
 const { Item } = models;
 
 export const itemTagsConnection = createConnection({
-  name: "ItesTags",
+  name: "ItemsTags",
   nodeType: TagType,
   target: Item.Tags,
   orderBy: new GraphQLEnumType({

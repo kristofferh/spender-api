@@ -10,6 +10,29 @@ import TagType from "../tag/type";
 
 const { User, Sequelize: { Op } } = models;
 
+const whereDates = ({ startDate, endDate }) => {
+  let where = {};
+  let date = {};
+  if (startDate) {
+    date = {
+      [Op.gte]: startDate
+    };
+    where = {
+      date
+    };
+  }
+
+  if (endDate) {
+    where = {
+      date: {
+        ...date,
+        [Op.lte]: endDate
+      }
+    };
+  }
+  return where;
+};
+
 export const userItemsConnection = createConnection({
   name: "UserItems",
   nodeType: ItemType,
@@ -71,7 +94,7 @@ export const userItemsConnection = createConnection({
       description: "The sum of the items in the result set.",
       resolve: ({ source, where }) => {
         return source.getItems({ where }).then(items => {
-          const values = items.map(item => Number(item.dataValues.amount));
+          const values = items.map(item => Number(item.amount));
           return toDecimal(sum(values));
         });
       }
@@ -81,7 +104,7 @@ export const userItemsConnection = createConnection({
       description: "The mean of the items in the result set.",
       resolve: ({ source, where }) => {
         return source.getItems({ where }).then(items => {
-          const values = items.map(item => Number(item.dataValues.amount));
+          const values = items.map(item => Number(item.amount));
           return toDecimal(avg(values));
         });
       }
@@ -91,7 +114,7 @@ export const userItemsConnection = createConnection({
       description: "The median of the items in the result set.",
       resolve: ({ source, where }) => {
         return source.getItems({ where }).then(items => {
-          const values = items.map(item => Number(item.dataValues.amount));
+          const values = items.map(item => Number(item.amount));
           return items.length ? toDecimal(median(values)) : 0;
         });
       }
@@ -110,10 +133,30 @@ export const userTagsConnection = createConnection({
     }
   }),
   connectionFields: {
-    total: {
+    count: {
       type: GraphQLInt,
       resolve: ({ source }) => {
         return source.countTags();
+      }
+    }
+  },
+  edgeFields: {
+    sumItems: {
+      type: GraphQLFloat,
+      resolve: ({ node, sourceArgs }) => {
+        const where = whereDates(sourceArgs);
+        return node.getItems({ where }).then(items => {
+          console.log(items);
+          const values = items.map(item => Number(item.amount));
+          return toDecimal(sum(values));
+        });
+      }
+    },
+    countItems: {
+      type: GraphQLInt,
+      resolve: ({ node, sourceArgs }) => {
+        const where = whereDates(sourceArgs);
+        return node.countItems({ where });
       }
     }
   }
