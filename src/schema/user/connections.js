@@ -1,7 +1,6 @@
 import { GraphQLInt, GraphQLFloat, GraphQLEnumType } from "graphql";
 import { createConnection } from "graphql-sequelize";
 
-import { auth } from "../../services/auth";
 import { avg, sum, toDecimal, median } from "../../utils/math";
 
 import models from "../../models";
@@ -9,9 +8,7 @@ import models from "../../models";
 import ItemType from "../item/type";
 import TagType from "../tag/type";
 
-import { getById } from "../tag/resolvers";
-
-const { User, Sequelize: { Op }, sequelize, Item } = models;
+const { User, Sequelize: { Op } } = models;
 
 const whereDates = ({ startDate, endDate }) => {
   let where = {};
@@ -132,17 +129,7 @@ export const userTagsConnection = createConnection({
   orderBy: new GraphQLEnumType({
     name: "UserTagsOrderBy",
     values: {
-      NAME: { value: ["name", "ASC"] },
-      SUM: {
-        value: [
-          (source, args, ctx, info) => {
-            return sequelize.literal(
-              `(SELECT SUM("Items"."amount") FROM "Items" WHERE "Items"."UserId" = "User"."id")`
-            );
-          },
-          "ASC"
-        ]
-      }
+      NAME: { value: ["name", "ASC"] }
     }
   }),
   connectionFields: {
