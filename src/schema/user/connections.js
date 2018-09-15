@@ -146,7 +146,6 @@ export const userTagsConnection = createConnection({
       resolve: ({ node, sourceArgs }) => {
         const where = whereDates(sourceArgs);
         return node.getItems({ where }).then(items => {
-          console.log(items);
           const values = items.map(item => Number(item.amount));
           return toDecimal(sum(values));
         });
