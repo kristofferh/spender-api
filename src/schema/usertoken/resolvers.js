@@ -68,10 +68,9 @@ export async function requestToken(
     try {
       await deliverEmail(
         delivery,
-        `${config[env]
-          .webEndpoint}/verify?token=${token}&delivery=${encodeURIComponent(
-          delivery
-        )}`
+        `${
+          config[env].webEndpoint
+        }/verify?token=${token}&delivery=${encodeURIComponent(delivery)}`
       );
       deliveryStatus = true;
     } catch (e) {

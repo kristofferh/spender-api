@@ -8,7 +8,10 @@ import models from "../../models";
 import ItemType from "../item/type";
 import TagType from "../tag/type";
 
-const { User, Sequelize: { Op } } = models;
+const {
+  User,
+  Sequelize: { Op }
+} = models;
 
 const whereDates = ({ startDate, endDate }) => {
   let where = {};
