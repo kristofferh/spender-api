@@ -101,36 +101,32 @@ export async function getByTag(
 // Create item
 export async function create({ date, amount, description, tags }, ctx) {
   const uid = auth(ctx);
-  return await models.Item
-    .create({
-      date: date,
-      amount: amount,
-      description: description,
-      UserId: uid
-    })
-    .then(item => {
-      if (tags) {
-        return models.Sequelize.Promise
-          .map(tags, tag => {
-            return models.Tag.findOrCreate({
-              where: {
-                name: tag.name.toLowerCase(),
-                UserId: uid
-              },
-              defaults: {
-                color: tag.color || randomColor()
-              }
-            });
-          })
-          .then(tags => {
-            tags = tags.map(tag => {
-              return tag[0];
-            });
-            return item.addTags(tags).then(() => item);
-          });
-      }
-      return item;
-    });
+  return await models.Item.create({
+    date: date,
+    amount: amount,
+    description: description,
+    UserId: uid
+  }).then(item => {
+    if (tags) {
+      return models.Sequelize.Promise.map(tags, tag => {
+        return models.Tag.findOrCreate({
+          where: {
+            name: tag.name.toLowerCase(),
+            UserId: uid
+          },
+          defaults: {
+            color: tag.color || randomColor()
+          }
+        });
+      }).then(tags => {
+        tags = tags.map(tag => {
+          return tag[0];
+        });
+        return item.addTags(tags).then(() => item);
+      });
+    }
+    return item;
+  });
 }
 
 // Create item
@@ -153,24 +149,22 @@ export async function edit({ id, date, amount, description, tags }, ctx) {
   let item = await models.Item.findById(id);
 
   if (tags) {
-    item = await models.Sequelize.Promise
-      .map(tags, tag => {
-        return models.Tag.findOrCreate({
-          where: {
-            name: tag.name.toLowerCase(),
-            UserId: uid
-          },
-          defaults: {
-            color: tag.color || randomColor()
-          }
-        });
-      })
-      .then(tags => {
-        tags = tags.map(tag => {
-          return tag[0];
-        });
-        return item.setTags(tags).then(() => item);
+    item = await models.Sequelize.Promise.map(tags, tag => {
+      return models.Tag.findOrCreate({
+        where: {
+          name: tag.name.toLowerCase(),
+          UserId: uid
+        },
+        defaults: {
+          color: tag.color || randomColor()
+        }
       });
+    }).then(tags => {
+      tags = tags.map(tag => {
+        return tag[0];
+      });
+      return item.setTags(tags).then(() => item);
+    });
   }
 
   return item;

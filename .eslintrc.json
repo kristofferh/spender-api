@@ -4,10 +4,11 @@
     "node": true,
     "jest": true
   },
+  "parser": "babel-eslint",
   "plugins": ["prettier"],
   "extends": ["eslint:recommended", "prettier"],
   "parserOptions": {
-    "ecmaVersion": 2017,
+    "ecmaVersion": 9,
     "sourceType": "module",
     "ecmaFeatures": {
       "experimentalObjectRestSpread": true
