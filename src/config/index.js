@@ -1,6 +1,7 @@
 module.exports = {
   development: {
-    webEndpoint: "http://localhost:3001",
+    webEndpoint: "http://localhost:8080",
+    iosAppPath: "spender://",
     db: {
       username: "local-dev",
       password: "local",
@@ -14,6 +15,7 @@ module.exports = {
   },
   test: {
     webEndpoint: "http://localhost:3001",
+    iosAppPath: "spender://",
     db: {
       username: "local-dev",
       password: "local",
@@ -27,6 +29,7 @@ module.exports = {
   },
   production: {
     webEndpoint: "https://spender-webapp-dev.herokuapp.com",
+    iosAppPath: "spender://",
     db: {
       use_env_variable: "DATABASE_URL",
       dialect: "postgres",

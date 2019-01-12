@@ -12,6 +12,9 @@ export const requestNewToken = {
     },
     deliveryType: {
       type: GraphQLString
+    },
+    deliveryPlatform: {
+      type: GraphQLString
     }
   },
   resolve: requestToken

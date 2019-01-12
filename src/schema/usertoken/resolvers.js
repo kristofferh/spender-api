@@ -34,7 +34,7 @@ async function deliverEmail(to, url) {
     from: "kris@k-create.com",
     subject: "Spender Login Verification",
     text: `Hello, here's your login link.\n ${url}`,
-    html: `<p>Hello, here's your login link.</p><p>${url}</p>`
+    html: `<p>Hello,</p><p>Here's your login link.</p><p><a href="${url}">${url}</a></p>`
   };
   try {
     return await sgMail.send(msg);
@@ -47,7 +47,7 @@ async function deliverEmail(to, url) {
 // the id, deliver the token and return.
 export async function requestToken(
   _,
-  { delivery, deliveryType = "email", ttl, origin }
+  { delivery, deliveryType = "email", deliveryPlatform = "web", ttl, origin }
 ) {
   // @todo: add more unique fields (i.e. phone number);
   const findOrCreateUser = await models.User.findOrCreate({
@@ -61,17 +61,21 @@ export async function requestToken(
     return false;
   }
 
+  let verifyUrl = `${
+    config[env].webEndpoint
+  }/verify?token=${token}&delivery=${encodeURIComponent(delivery)}`;
+
+  // @todo: add allowed deliveryPlatforms.
+  if (deliveryPlatform === "ios") {
+    verifyUrl = `${verifyUrl}&platform=ios`;
+  }
+
   // @todo: add more delivery mechanisms.
   if (deliveryType !== "email") {
     deliveryStatus = false;
   } else {
     try {
-      await deliverEmail(
-        delivery,
-        `${
-          config[env].webEndpoint
-        }/verify?token=${token}&delivery=${encodeURIComponent(delivery)}`
-      );
+      await deliverEmail(delivery, verifyUrl);
       deliveryStatus = true;
     } catch (e) {
       deliveryStatus = false;
