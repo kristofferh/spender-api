@@ -146,7 +146,7 @@ export async function edit({ id, date, amount, description, tags }, ctx) {
     }
   );
 
-  let item = await models.Item.findById(id);
+  let item = await models.Item.findByPk(id);
 
   if (tags) {
     item = await models.Sequelize.Promise.map(tags, tag => {
