@@ -11,16 +11,13 @@ let models = {};
 let connection;
 // Create new database connection
 if (dbConfig.use_env_variable) {
-  connection = new Sequelize(process.env[dbConfig.use_env_variable], {
-    ...dbConfig,
-    operatorsAliases: Sequelize.Op
-  });
+  connection = new Sequelize(process.env[dbConfig.use_env_variable], dbConfig);
 } else {
   connection = new Sequelize(
     dbConfig.database,
     dbConfig.username,
     dbConfig.password,
-    { ...dbConfig, operatorsAliases: Sequelize.Op }
+    dbConfig
   );
 }
 

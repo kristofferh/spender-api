@@ -9,7 +9,7 @@ const User = (sequelize, DataTypes) => {
           msg: "Email address must be valid"
         },
         isUnique(value, next) {
-          User.find({ where: { email: value } })
+          User.findOne({ where: { email: value } })
             .then(user => {
               // Reject if a different user wants to use the same email
               if (user && this.id !== user.id) {
