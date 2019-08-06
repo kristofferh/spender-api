@@ -6568,9 +6568,9 @@ xtend@^4.0.0, xtend@^4.0.1:
   resolved "https://registry.yarnpkg.com/xtend/-/xtend-4.0.1.tgz#a5c6d532be656e23db820efb943a1f04998d63af"
 
 xterm@^3.7.0:
-  version "3.10.0"
-  resolved "https://registry.yarnpkg.com/xterm/-/xterm-3.10.0.tgz#2c3108d886b9cb4e2d7d4f1a05ce5be6758552de"
-  integrity sha512-ZA55MObCk8xKHG0TjZpStCJn6oIkPkW24ZtagZpUdol9kHYJ36imPsesZdVXsyxQd1le4RPpSpDU9O/rqq/yCA==
+  version "3.14.5"
+  resolved "https://registry.yarnpkg.com/xterm/-/xterm-3.14.5.tgz#c9d14e48be6873aa46fb429f22f2165557fd2dea"
+  integrity sha512-DVmQ8jlEtL+WbBKUZuMxHMBgK/yeIZwkXB81bH+MGaKKnJGYwA+770hzhXPfwEIokK9On9YIFPRleVp/5G7z9g==
 
 "y18n@^3.2.1 || ^4.0.0":
   version "4.0.0"
