@@ -42,7 +42,7 @@
     "eslint-plugin-prettier": "^3.1.2",
     "jest": "^24.8.0",
     "jest-cli": "^24.8.0",
-    "ndb": "^1.0.42",
+    "ndb": "^1.1.5",
     "nodemon": "^2.0.1",
     "prettier": "^1.15.3",
     "sequelize-cli": "^5.4.0"
