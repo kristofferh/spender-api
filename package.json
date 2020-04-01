@@ -48,7 +48,7 @@
     "sequelize-cli": "^5.4.0"
   },
   "dependencies": {
-    "@sendgrid/mail": "^6.2.1",
+    "@sendgrid/mail": "^7.0.0",
     "body-parser": "^1.18.2",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.4",
