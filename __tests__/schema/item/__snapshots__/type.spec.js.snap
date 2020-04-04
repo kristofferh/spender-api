@@ -31,7 +31,7 @@ Object {
       Object {
         "astNode": undefined,
         "defaultValue": undefined,
-        "description": null,
+        "description": undefined,
         "extensions": undefined,
         "name": "id",
         "type": "ID",
@@ -52,7 +52,7 @@ Object {
       Object {
         "astNode": undefined,
         "defaultValue": undefined,
-        "description": null,
+        "description": undefined,
         "extensions": undefined,
         "name": "after",
         "type": "String",
@@ -60,7 +60,7 @@ Object {
       Object {
         "astNode": undefined,
         "defaultValue": undefined,
-        "description": null,
+        "description": undefined,
         "extensions": undefined,
         "name": "first",
         "type": "Int",
@@ -68,7 +68,7 @@ Object {
       Object {
         "astNode": undefined,
         "defaultValue": undefined,
-        "description": null,
+        "description": undefined,
         "extensions": undefined,
         "name": "before",
         "type": "String",
@@ -76,7 +76,7 @@ Object {
       Object {
         "astNode": undefined,
         "defaultValue": undefined,
-        "description": null,
+        "description": undefined,
         "extensions": undefined,
         "name": "last",
         "type": "Int",
@@ -84,7 +84,7 @@ Object {
       Object {
         "astNode": undefined,
         "defaultValue": undefined,
-        "description": null,
+        "description": undefined,
         "extensions": undefined,
         "name": "orderBy",
         "type": "[UserItemsOrderBy]",
@@ -129,7 +129,7 @@ Object {
       Object {
         "astNode": undefined,
         "defaultValue": undefined,
-        "description": null,
+        "description": undefined,
         "extensions": undefined,
         "name": "after",
         "type": "String",
@@ -137,7 +137,7 @@ Object {
       Object {
         "astNode": undefined,
         "defaultValue": undefined,
-        "description": null,
+        "description": undefined,
         "extensions": undefined,
         "name": "first",
         "type": "Int",
@@ -145,7 +145,7 @@ Object {
       Object {
         "astNode": undefined,
         "defaultValue": undefined,
-        "description": null,
+        "description": undefined,
         "extensions": undefined,
         "name": "before",
         "type": "String",
@@ -153,7 +153,7 @@ Object {
       Object {
         "astNode": undefined,
         "defaultValue": undefined,
-        "description": null,
+        "description": undefined,
         "extensions": undefined,
         "name": "last",
         "type": "Int",
@@ -161,7 +161,7 @@ Object {
       Object {
         "astNode": undefined,
         "defaultValue": undefined,
-        "description": null,
+        "description": undefined,
         "extensions": undefined,
         "name": "orderBy",
         "type": "[UserTagsOrderBy]",
