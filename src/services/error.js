@@ -1,4 +1,4 @@
-const report = error => {
+const report = (error) => {
   // TODO: Log the error to Google Stackdriver, Rollbar etc.
   // eslint-disable-next-line no-console
   console.error(error);

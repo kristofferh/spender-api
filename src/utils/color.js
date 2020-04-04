@@ -7,10 +7,10 @@ export const COLORS = [
   "#383971",
   "#6f9cab",
   "#3a0d2f",
-  "#b2cc7e"
+  "#b2cc7e",
 ];
 
-export const randomValue = values => {
+export const randomValue = (values) => {
   return values[Math.floor(Math.random() * values.length)];
 };
 

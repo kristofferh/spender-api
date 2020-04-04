@@ -12,13 +12,13 @@ const UserTokenType = new GraphQLObjectType({
             return true;
           }
           return false;
-        }
+        },
       },
       token: {
-        type: GraphQLString
-      }
+        type: GraphQLString,
+      },
     };
-  }
+  },
 });
 
 export default UserTokenType;

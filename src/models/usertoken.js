@@ -2,34 +2,34 @@ const UserToken = (sequelize, DataTypes) => {
   const UserToken = sequelize.define("UserToken", {
     token: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     origin: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     ttl: {
-      type: DataTypes.BIGINT
+      type: DataTypes.BIGINT,
     },
     delivery: {
       type: DataTypes.STRING,
-      allowNull: false
-    }
+      allowNull: false,
+    },
   });
 
-  UserToken.associate = models => {
+  UserToken.associate = (models) => {
     const User = UserToken.belongsTo(models.User, {
       foreignKey: {
         name: "uid",
         allowNull: false,
-        unique: true
+        unique: true,
       },
-      onDelete: "CASCADE"
+      onDelete: "CASCADE",
     });
     return [
       {
         name: "User",
-        association: User
-      }
+        association: User,
+      },
     ];
   };
 

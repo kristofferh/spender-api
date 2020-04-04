@@ -9,9 +9,9 @@ export const items = {
   args: {
     limit: { type: GraphQLInt },
     offset: { type: GraphQLInt },
-    order: { type: GraphQLString }
+    order: { type: GraphQLString },
   },
-  resolve: getAll
+  resolve: getAll,
 };
 
 // All items by month
@@ -22,9 +22,9 @@ export const itemsByMonth = {
     year: { type: GraphQLInt },
     limit: { type: GraphQLInt },
     offset: { type: GraphQLInt },
-    order: { type: GraphQLString }
+    order: { type: GraphQLString },
   },
-  resolve: getByMonth
+  resolve: getByMonth,
 };
 
 // All items by tag
@@ -36,16 +36,16 @@ export const itemsByTag = {
     year: { type: GraphQLInt },
     limit: { type: GraphQLInt },
     offset: { type: GraphQLInt },
-    order: { type: GraphQLString }
+    order: { type: GraphQLString },
   },
-  resolve: getByTag
+  resolve: getByTag,
 };
 
 // Item by ID
 export const item = {
   type: ItemType,
   args: {
-    id: { type: GraphQLID }
+    id: { type: GraphQLID },
   },
-  resolve: getById
+  resolve: getById,
 };

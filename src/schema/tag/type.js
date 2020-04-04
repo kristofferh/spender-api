@@ -4,7 +4,7 @@ import {
   GraphQLString,
   GraphQLInt,
   GraphQLList,
-  GraphQLFloat
+  GraphQLFloat,
 } from "graphql";
 
 import ItemType from "../item/type";
@@ -15,16 +15,16 @@ const TagType = new GraphQLObjectType({
 
   fields: () => ({
     id: {
-      type: GraphQLInt
+      type: GraphQLInt,
     },
     name: {
-      type: GraphQLString
+      type: GraphQLString,
     },
     description: {
-      type: GraphQLString
+      type: GraphQLString,
     },
     color: {
-      type: GraphQLString
+      type: GraphQLString,
     },
     total: {
       type: GraphQLFloat,
@@ -32,7 +32,7 @@ const TagType = new GraphQLObjectType({
         if (tag && tag.dataValues) {
           return Number(tag.dataValues.total);
         }
-      }
+      },
     },
     count: {
       type: GraphQLFloat,
@@ -40,15 +40,15 @@ const TagType = new GraphQLObjectType({
         if (tag && tag.dataValues) {
           return Number(tag.dataValues.count);
         }
-      }
+      },
     },
     items: {
       type: new GraphQLList(ItemType),
       resolve(tag) {
         return tag.getItems();
-      }
-    }
-  })
+      },
+    },
+  }),
 });
 
 export default TagType;

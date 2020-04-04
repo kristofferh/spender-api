@@ -14,15 +14,15 @@ export const itemTagsConnection = createConnection({
   orderBy: new GraphQLEnumType({
     name: "ItemTagsOrderBy",
     values: {
-      NAME: { value: ["name", "ASC"] }
-    }
+      NAME: { value: ["name", "ASC"] },
+    },
   }),
   connectionFields: {
     count: {
       type: GraphQLInt,
       resolve: ({ source }) => {
         return source.countTags();
-      }
-    }
-  }
+      },
+    },
+  },
 });

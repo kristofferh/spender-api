@@ -4,7 +4,7 @@ import {
   GraphQLFloat,
   GraphQLNonNull,
   GraphQLInputObjectType,
-  GraphQLList
+  GraphQLList,
 } from "graphql";
 
 import { mutationWithClientMutationId } from "graphql-relay";
@@ -18,16 +18,16 @@ const TagInput = new GraphQLInputObjectType({
   fields: () => {
     return {
       name: {
-        type: GraphQLString
+        type: GraphQLString,
       },
       description: {
-        type: GraphQLString
+        type: GraphQLString,
       },
       color: {
-        type: GraphQLString
-      }
+        type: GraphQLString,
+      },
     };
-  }
+  },
 });
 
 // Create item
@@ -35,25 +35,25 @@ export const addItem = mutationWithClientMutationId({
   name: "AddItem",
   inputFields: {
     date: {
-      type: GraphQLString
+      type: GraphQLString,
     },
     amount: {
-      type: new GraphQLNonNull(GraphQLFloat)
+      type: new GraphQLNonNull(GraphQLFloat),
     },
     description: {
-      type: new GraphQLNonNull(GraphQLString)
+      type: new GraphQLNonNull(GraphQLString),
     },
     tags: {
-      type: new GraphQLList(TagInput)
-    }
+      type: new GraphQLList(TagInput),
+    },
   },
   outputFields: {
     item: {
       type: ItemType,
-      resolve: payload => payload
-    }
+      resolve: (payload) => payload,
+    },
   },
-  mutateAndGetPayload: (input, context) => create(input, context)
+  mutateAndGetPayload: (input, context) => create(input, context),
 });
 
 // Edit item
@@ -61,31 +61,31 @@ export const editItem = mutationWithClientMutationId({
   name: "EditItem",
   inputFields: {
     id: {
-      type: new GraphQLNonNull(GraphQLID)
+      type: new GraphQLNonNull(GraphQLID),
     },
     date: {
-      type: GraphQLString
+      type: GraphQLString,
     },
     amount: {
-      type: new GraphQLNonNull(GraphQLFloat)
+      type: new GraphQLNonNull(GraphQLFloat),
     },
     description: {
-      type: new GraphQLNonNull(GraphQLString)
+      type: new GraphQLNonNull(GraphQLString),
     },
     tags: {
-      type: new GraphQLList(TagInput)
-    }
+      type: new GraphQLList(TagInput),
+    },
   },
   outputFields: {
     item: {
       type: ItemType,
-      resolve: payload => payload
-    }
+      resolve: (payload) => payload,
+    },
   },
   mutateAndGetPayload: (input, context) => {
     // const { id } = fromGlobalId(input.id);
     return edit(input, context);
-  }
+  },
 });
 
 // Remove item
@@ -93,8 +93,8 @@ export const removeItem = {
   type: ItemType,
   args: {
     id: {
-      type: GraphQLID
-    }
+      type: GraphQLID,
+    },
   },
-  resolve: remove
+  resolve: remove,
 };

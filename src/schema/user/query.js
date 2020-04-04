@@ -6,11 +6,11 @@ import { getAll, currentUser } from "./resolvers";
 // All users
 export const users = {
   type: new GraphQLList(UserType),
-  resolve: getAll
+  resolve: getAll,
 };
 
 // Current user.
 export const user = {
   type: UserType,
-  resolve: currentUser
+  resolve: currentUser,
 };

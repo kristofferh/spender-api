@@ -16,7 +16,7 @@ export const currentUser = resolver(models.User, {
     // @todo: add ability to look up user id with admin scope.
     findOptions.where = { id: uid };
     return findOptions;
-  }
+  },
 });
 
 // Get all users

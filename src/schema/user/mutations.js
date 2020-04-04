@@ -8,13 +8,13 @@ export const login = {
   type: UserType,
   args: {
     email: {
-      type: new GraphQLNonNull(GraphQLString)
+      type: new GraphQLNonNull(GraphQLString),
     },
     password: {
-      type: new GraphQLNonNull(GraphQLString)
-    }
+      type: new GraphQLNonNull(GraphQLString),
+    },
   },
-  resolve: authenticate
+  resolve: authenticate,
 };
 
 // Create user
@@ -22,10 +22,10 @@ export const addUser = {
   type: UserType,
   args: {
     email: {
-      type: new GraphQLNonNull(GraphQLString)
-    }
+      type: new GraphQLNonNull(GraphQLString),
+    },
   },
-  resolve: create
+  resolve: create,
 };
 
 // Remove user
@@ -34,8 +34,8 @@ export const removeUser = {
   args: {
     id: {
       name: "id",
-      type: GraphQLInt
-    }
+      type: GraphQLInt,
+    },
   },
-  resolve: remove
+  resolve: remove,
 };

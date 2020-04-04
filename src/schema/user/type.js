@@ -13,13 +13,13 @@ const UserType = new GraphQLObjectType({
   fields: () => {
     return {
       id: {
-        type: GraphQLInt
+        type: GraphQLInt,
       },
       email: {
-        type: GraphQLString
+        type: GraphQLString,
       },
       token: {
-        type: GraphQLString
+        type: GraphQLString,
       },
       item,
       items: {
@@ -29,20 +29,20 @@ const UserType = new GraphQLObjectType({
           ...userItemsConnection.connectionArgs,
           description: {
             type: GraphQLString,
-            description: "Search by description"
+            description: "Search by description",
           },
           startDate: {
             type: GraphQLString,
             description:
-              "The start date. Can be any date string in the order yyyy-mm-dd hh:mm"
+              "The start date. Can be any date string in the order yyyy-mm-dd hh:mm",
           },
           endDate: {
             type: GraphQLString,
             description:
-              "The end date. Can be any date string in the order yyyy-mm-dd hh:mm"
-          }
+              "The end date. Can be any date string in the order yyyy-mm-dd hh:mm",
+          },
         },
-        resolve: userItemsConnection.resolve
+        resolve: userItemsConnection.resolve,
       },
       tags: {
         description: "The user's tags",
@@ -52,18 +52,18 @@ const UserType = new GraphQLObjectType({
           startDate: {
             type: GraphQLString,
             description:
-              "The start date. Can be any date string in the order yyyy-mm-dd hh:mm"
+              "The start date. Can be any date string in the order yyyy-mm-dd hh:mm",
           },
           endDate: {
             type: GraphQLString,
             description:
-              "The end date. Can be any date string in the order yyyy-mm-dd hh:mm"
-          }
+              "The end date. Can be any date string in the order yyyy-mm-dd hh:mm",
+          },
         },
-        resolve: userTagsConnection.resolve
-      }
+        resolve: userTagsConnection.resolve,
+      },
     };
-  }
+  },
 });
 
 export default UserType;

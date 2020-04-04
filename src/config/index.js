@@ -9,8 +9,8 @@ module.exports = {
       dialect: "postgres",
       port: 5432, // 3306 for mysql,
       logging: console.log,
-      timezone: "utc"
-    }
+      timezone: "utc",
+    },
   },
   test: {
     webEndpoint: "http://localhost:3001",
@@ -22,8 +22,8 @@ module.exports = {
       dialect: "postgres",
       port: 5432, // 3306 for mysql,
       logging: console.log,
-      timezone: "utc"
-    }
+      timezone: "utc",
+    },
   },
   production: {
     webEndpoint: "https://spender-webapp-dev.herokuapp.com",
@@ -31,7 +31,7 @@ module.exports = {
       use_env_variable: "DATABASE_URL",
       dialect: "postgres",
       logging: null,
-      timezone: "utc"
-    }
-  }
+      timezone: "utc",
+    },
+  },
 };

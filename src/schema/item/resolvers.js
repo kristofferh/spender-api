@@ -8,8 +8,8 @@ export async function getById(parentValue, { id }, ctx) {
   return await models.Item.findOne({
     where: {
       UserId: uid,
-      id
-    }
+      id,
+    },
   });
 }
 
@@ -18,7 +18,7 @@ export async function getAll(_, { limit, offset, order }, ctx) {
   const id = auth(ctx);
   return await models.Item.findAll({
     where: {
-      UserId: id
+      UserId: id,
     },
     limit: limit,
     offset: offset,
@@ -26,7 +26,7 @@ export async function getAll(_, { limit, offset, order }, ctx) {
       ? order.indexOf("reverse:") === 0
         ? [[order.substring(8), "DESC"]]
         : [[order, "ASC"]]
-      : undefined
+      : undefined,
   });
 }
 
@@ -49,8 +49,8 @@ export async function getByMonth(
         sequelize.where(
           sequelize.fn("date_part", "month", sequelize.col("date")),
           month
-        )
-      ]
+        ),
+      ],
     },
     limit: limit,
     offset: offset,
@@ -58,7 +58,7 @@ export async function getByMonth(
       ? order.indexOf("reverse:") === 0
         ? [[order.substring(8), "DESC"]]
         : [[order, "ASC"]]
-      : undefined
+      : undefined,
   });
 }
 
@@ -80,12 +80,12 @@ export async function getByTag(
   );
   const where = {
     UserId: id,
-    [Sequelize.Op.and]: [year ? yearSQL : null, month ? monthSQL : null]
+    [Sequelize.Op.and]: [year ? yearSQL : null, month ? monthSQL : null],
   };
   return await models.Item.findAll({
     include: {
       model: models.Tag,
-      where: { id: tagId }
+      where: { id: tagId },
     },
     where,
     limit: limit,
@@ -94,7 +94,7 @@ export async function getByTag(
       ? order.indexOf("reverse:") === 0
         ? [[order.substring(8), "DESC"]]
         : [[order, "ASC"]]
-      : undefined
+      : undefined,
   });
 }
 
@@ -105,21 +105,21 @@ export async function create({ date, amount, description, tags }, ctx) {
     date: date,
     amount: amount,
     description: description,
-    UserId: uid
-  }).then(item => {
+    UserId: uid,
+  }).then((item) => {
     if (tags) {
-      return models.Sequelize.Promise.map(tags, tag => {
+      return models.Sequelize.Promise.map(tags, (tag) => {
         return models.Tag.findOrCreate({
           where: {
             name: tag.name.toLowerCase(),
-            UserId: uid
+            UserId: uid,
           },
           defaults: {
-            color: tag.color || randomColor()
-          }
+            color: tag.color || randomColor(),
+          },
         });
-      }).then(tags => {
-        tags = tags.map(tag => {
+      }).then((tags) => {
+        tags = tags.map((tag) => {
           return tag[0];
         });
         return item.addTags(tags).then(() => item);
@@ -137,30 +137,30 @@ export async function edit({ id, date, amount, description, tags }, ctx) {
       date: date,
       amount: amount,
       description: description,
-      UserId: uid
+      UserId: uid,
     },
     {
       where: {
-        id: id
-      }
+        id: id,
+      },
     }
   );
 
   let item = await models.Item.findByPk(id);
 
   if (tags) {
-    item = await models.Sequelize.Promise.map(tags, tag => {
+    item = await models.Sequelize.Promise.map(tags, (tag) => {
       return models.Tag.findOrCreate({
         where: {
           name: tag.name.toLowerCase(),
-          UserId: uid
+          UserId: uid,
         },
         defaults: {
-          color: tag.color || randomColor()
-        }
+          color: tag.color || randomColor(),
+        },
       });
-    }).then(tags => {
-      tags = tags.map(tag => {
+    }).then((tags) => {
+      tags = tags.map((tag) => {
         return tag[0];
       });
       return item.setTags(tags).then(() => item);

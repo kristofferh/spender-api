@@ -8,7 +8,7 @@ import mutation from "./mutation";
 // Schema
 const schema = new GraphQLSchema({
   query,
-  mutation
+  mutation,
 });
 
 export default schema;

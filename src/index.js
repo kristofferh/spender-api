@@ -40,28 +40,19 @@ server.use(morgan("tiny"));
 server.use(
   jwt({
     secret: process.env.SECRET,
-    credentialsRequired: false
+    credentialsRequired: false,
   })
 );
 
 server
-  .get("/_ah/start", function(req, res) {
-    res
-      .status(200)
-      .send("ok")
-      .end();
+  .get("/_ah/start", function (req, res) {
+    res.status(200).send("ok").end();
   })
-  .get("/_ah/health", function(req, res) {
-    res
-      .status(200)
-      .send("ok")
-      .end();
+  .get("/_ah/health", function (req, res) {
+    res.status(200).send("ok").end();
   })
-  .get("/_ah/stop", function(req, res) {
-    res
-      .status(200)
-      .send("ok")
-      .end();
+  .get("/_ah/stop", function (req, res) {
+    res.status(200).send("ok").end();
   });
 
 // Invalid jwt token.
@@ -89,9 +80,9 @@ server.use(
         message: err.message,
         code: err.originalError && err.originalError.code,
         locations: err.locations,
-        path: err.path
+        path: err.path,
       };
-    }
+    },
   }))
 );
 
@@ -103,7 +94,7 @@ models.sequelize
     console.info("SETUP - Starting server");
 
     // Start web server
-    server.listen(port, error => {
+    server.listen(port, (error) => {
       if (error) {
         console.error("ERROR - Unable to start server.");
       } else {
@@ -111,7 +102,7 @@ models.sequelize
       }
     });
   })
-  .catch(error => {
+  .catch((error) => {
     console.error("ERROR - Unable to sync database.", error);
     console.error("ERROR - Server not started.");
   });

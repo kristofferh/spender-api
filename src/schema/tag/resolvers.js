@@ -9,21 +9,21 @@ export async function getById({ id }, associationWhere, ctx) {
   const uid = auth(ctx);
   const where = {
     UserId: uid,
-    id
+    id,
   };
   return await Tag.findOne({
     attributes: Object.keys(Tag.attributes).concat([
       [sequelize.fn("SUM", sequelize.col("Items.amount")), "total"],
-      [sequelize.fn("COUNT", sequelize.col("Items.id")), "count"]
+      [sequelize.fn("COUNT", sequelize.col("Items.id")), "count"],
     ]),
     include: {
       model: Item,
       duplicating: false,
-      where: associationWhere
+      where: associationWhere,
     },
     includeIgnoreAttributes: false, // Weird bug.
     where,
-    group: ["Tag.id"]
+    group: ["Tag.id"],
   });
 }
 
@@ -45,7 +45,7 @@ export async function getItemsByTags(
   );
   const where = {
     UserId: id,
-    [Sequelize.Op.and]: [year ? yearSQL : null, month ? monthSQL : null]
+    [Sequelize.Op.and]: [year ? yearSQL : null, month ? monthSQL : null],
   };
 
   // Hacky order by.
@@ -65,18 +65,18 @@ export async function getItemsByTags(
   return await models.Tag.findAll({
     attributes: Object.keys(models.Tag.attributes).concat([
       [sequelize.fn("SUM", sequelize.col("Items.amount")), "total"],
-      [sequelize.fn("COUNT", sequelize.col("Items.id")), "count"]
+      [sequelize.fn("COUNT", sequelize.col("Items.id")), "count"],
     ]),
     include: {
       model: models.Item,
-      duplicating: false
+      duplicating: false,
     },
     includeIgnoreAttributes: false, // Weird bug.
     where,
     offset,
     order,
     limit,
-    group: ["Tag.id"]
+    group: ["Tag.id"],
   });
 }
 
@@ -98,7 +98,7 @@ export async function getAll(
   );
   const where = {
     UserId: id,
-    [Sequelize.Op.and]: [year ? yearSQL : null, month ? monthSQL : null]
+    [Sequelize.Op.and]: [year ? yearSQL : null, month ? monthSQL : null],
   };
 
   // Hacky order by.
@@ -118,18 +118,18 @@ export async function getAll(
   return await models.Tag.findAll({
     attributes: Object.keys(models.Tag.attributes).concat([
       [sequelize.fn("SUM", sequelize.col("Items.amount")), "total"],
-      [sequelize.fn("COUNT", sequelize.col("Items.id")), "count"]
+      [sequelize.fn("COUNT", sequelize.col("Items.id")), "count"],
     ]),
     include: {
       model: models.Item,
-      duplicating: false
+      duplicating: false,
     },
     includeIgnoreAttributes: false, // Weird bug.
     where,
     offset,
     order,
     limit,
-    group: ["Tag.id"]
+    group: ["Tag.id"],
   });
 }
 
@@ -140,7 +140,7 @@ export async function create(parentValue, { name, description, color }, ctx) {
     name,
     description,
     color,
-    UserId: id
+    UserId: id,
   });
 }
 

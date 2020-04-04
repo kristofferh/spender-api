@@ -44,7 +44,7 @@
     "jest-cli": "^24.8.0",
     "ndb": "^1.1.5",
     "nodemon": "^2.0.1",
-    "prettier": "^1.15.3",
+    "prettier": "^2.0.2",
     "sequelize-cli": "^5.4.0"
   },
   "dependencies": {
