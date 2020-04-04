@@ -9,16 +9,16 @@ export const addTag = {
   type: TagType,
   args: {
     name: {
-      type: new GraphQLNonNull(GraphQLString)
+      type: new GraphQLNonNull(GraphQLString),
     },
     description: {
-      type: GraphQLString
+      type: GraphQLString,
     },
     color: {
-      type: GraphQLString
-    }
+      type: GraphQLString,
+    },
   },
-  resolve: create
+  resolve: create,
 };
 
 // Remove tag
@@ -26,8 +26,8 @@ export const removeTag = {
   type: TagType,
   args: {
     id: {
-      type: GraphQLInt
-    }
+      type: GraphQLInt,
+    },
   },
-  resolve: remove
+  resolve: remove,
 };

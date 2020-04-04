@@ -12,8 +12,8 @@ const query = new GraphQLObjectType({
   fields: () => ({
     ...item,
     ...user,
-    ...tag
-  })
+    ...tag,
+  }),
 });
 
 export default query;

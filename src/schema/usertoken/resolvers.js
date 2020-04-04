@@ -20,7 +20,7 @@ async function createAndStoreToken(uid, delivery, ttl = 3600000, origin) {
       ttl: Date.now() + ttl,
       uid,
       origin,
-      delivery
+      delivery,
     });
     return hashedToken;
   } catch (err) {
@@ -34,7 +34,7 @@ async function deliverEmail(to, url) {
     from: "kris@k-create.com",
     subject: "Spender Login Verification",
     text: `Hello, here's your login link.\n ${url}`,
-    html: `<p>Hello, here's your login link.</p><p>${url}</p>`
+    html: `<p>Hello, here's your login link.</p><p>${url}</p>`,
   };
   try {
     return await sgMail.send(msg);
@@ -51,7 +51,7 @@ export async function requestToken(
 ) {
   // @todo: add more unique fields (i.e. phone number);
   const findOrCreateUser = await models.User.findOrCreate({
-    where: { email: delivery }
+    where: { email: delivery },
   });
   const [User] = findOrCreateUser;
   let deliveryStatus;
@@ -85,7 +85,7 @@ export async function requestToken(
 export async function verify(_, { delivery, token }) {
   try {
     const modelToken = await models.UserToken.findOne({
-      where: { delivery, token }
+      where: { delivery, token },
     });
 
     if (!modelToken) {
@@ -97,7 +97,7 @@ export async function verify(_, { delivery, token }) {
     }
 
     const removeToken = await models.UserToken.destroy({
-      where: { token }
+      where: { token },
     });
 
     if (!removeToken) {

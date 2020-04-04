@@ -3,34 +3,34 @@ let Item = (sequelize, DataTypes) => {
     date: {
       type: DataTypes.DATE,
       allowNull: false,
-      defaultValue: DataTypes.NOW
+      defaultValue: DataTypes.NOW,
     },
     amount: {
       type: DataTypes.DECIMAL(10, 2),
-      allowNull: false
+      allowNull: false,
     },
     description: {
       type: DataTypes.STRING,
-      allowNull: false
-    }
+      allowNull: false,
+    },
   });
 
-  Item.associate = models => {
+  Item.associate = (models) => {
     const Users = Item.belongsTo(models.User, {
-      onDelete: "CASCADE"
+      onDelete: "CASCADE",
     });
     const Tags = Item.belongsToMany(models.Tag, {
-      through: "ItemTags"
+      through: "ItemTags",
     });
     return [
       {
         name: "Users",
-        association: Users
+        association: Users,
       },
       {
         name: "Tags",
-        association: Tags
-      }
+        association: Tags,
+      },
     ];
   };
 

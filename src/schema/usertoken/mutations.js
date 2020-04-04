@@ -8,24 +8,24 @@ export const requestNewToken = {
   type: UserTokenType,
   args: {
     delivery: {
-      type: new GraphQLNonNull(GraphQLString)
+      type: new GraphQLNonNull(GraphQLString),
     },
     deliveryType: {
-      type: GraphQLString
-    }
+      type: GraphQLString,
+    },
   },
-  resolve: requestToken
+  resolve: requestToken,
 };
 
 export const verifyToken = {
   type: UserTokenType,
   args: {
     delivery: {
-      type: new GraphQLNonNull(GraphQLString)
+      type: new GraphQLNonNull(GraphQLString),
     },
     token: {
-      type: new GraphQLNonNull(GraphQLString)
-    }
+      type: new GraphQLNonNull(GraphQLString),
+    },
   },
-  resolve: verify
+  resolve: verify,
 };

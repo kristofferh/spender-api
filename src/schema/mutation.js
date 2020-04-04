@@ -14,8 +14,8 @@ const mutation = new GraphQLObjectType({
     ...item,
     ...user,
     ...tag,
-    ...usertoken
-  })
+    ...usertoken,
+  }),
 });
 
 export default mutation;

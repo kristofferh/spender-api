@@ -12,16 +12,16 @@ export const tags = {
     order: { type: GraphQLString },
     group: { type: GraphQLString },
     month: { type: GraphQLInt },
-    year: { type: GraphQLInt }
+    year: { type: GraphQLInt },
   },
-  resolve: getAll
+  resolve: getAll,
 };
 
 // Tag by ID
 export const tag = {
   type: TagType,
   args: {
-    id: { type: GraphQLInt }
+    id: { type: GraphQLInt },
   },
-  resolve: getById
+  resolve: getById,
 };

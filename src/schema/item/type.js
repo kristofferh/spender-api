@@ -3,7 +3,7 @@ import {
   GraphQLString,
   GraphQLFloat,
   GraphQLID,
-  GraphQLNonNull
+  GraphQLNonNull,
 } from "graphql";
 
 import { createNodeInterface } from "graphql-sequelize";
@@ -24,24 +24,24 @@ const ItemType = new GraphQLObjectType({
   interfaces: [nodeInterface],
   fields: () => ({
     id: {
-      type: new GraphQLNonNull(GraphQLID) // @todo: replace with globalIdField()
+      type: new GraphQLNonNull(GraphQLID), // @todo: replace with globalIdField()
     },
     date: {
-      type: GraphQLDate
+      type: GraphQLDate,
     },
     amount: {
-      type: GraphQLFloat
+      type: GraphQLFloat,
     },
     description: {
-      type: GraphQLString
+      type: GraphQLString,
     },
     tags: {
       description: "The tags belonging to the item",
       type: itemTagsConnection.connectionType,
       args: itemTagsConnection.connectionArgs,
-      resolve: itemTagsConnection.resolve
-    }
-  })
+      resolve: itemTagsConnection.resolve,
+    },
+  }),
 });
 
 export default ItemType;

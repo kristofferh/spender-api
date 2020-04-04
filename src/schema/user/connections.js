@@ -10,7 +10,7 @@ import TagType from "../tag/type";
 
 const {
   User,
-  Sequelize: { Op }
+  Sequelize: { Op },
 } = models;
 
 const whereDates = ({ startDate, endDate }) => {
@@ -18,10 +18,10 @@ const whereDates = ({ startDate, endDate }) => {
   let date = {};
   if (startDate) {
     date = {
-      [Op.gte]: startDate
+      [Op.gte]: startDate,
     };
     where = {
-      date
+      date,
     };
   }
 
@@ -29,8 +29,8 @@ const whereDates = ({ startDate, endDate }) => {
     where = {
       date: {
         ...date,
-        [Op.lte]: endDate
-      }
+        [Op.lte]: endDate,
+      },
     };
   }
   return where;
@@ -45,13 +45,13 @@ export const userItemsConnection = createConnection({
     name: "UserItemsOrderBy",
     values: {
       DATE: { value: ["date", "DESC"] }, // The first ENUM value will be the default order. The direction will be used for `first`, will automatically be inversed for `last` lookups.
-      AMOUNT: { value: ["amount", "DESC"] }
-    }
+      AMOUNT: { value: ["amount", "DESC"] },
+    },
   }),
   where: (key, value, previousWhere) => {
     if (key === "description") {
       return {
-        [key]: { [Op.iLike]: `%${value}%` }
+        [key]: { [Op.iLike]: `%${value}%` },
       };
     }
 
@@ -60,8 +60,8 @@ export const userItemsConnection = createConnection({
       return {
         date: {
           ...existingDate,
-          [Op.gte]: value
-        }
+          [Op.gte]: value,
+        },
       };
     }
 
@@ -70,8 +70,8 @@ export const userItemsConnection = createConnection({
       return {
         date: {
           ...existingDate,
-          [Op.lte]: value
-        }
+          [Op.lte]: value,
+        },
       };
     }
 
@@ -83,46 +83,46 @@ export const userItemsConnection = createConnection({
       description: "The total number of items.",
       resolve: ({ source }) => {
         return source.countItems();
-      }
+      },
     },
     count: {
       type: GraphQLInt,
       description: "The number of items in the result set.",
       resolve: ({ source, where }) => {
         return source.countItems({ where });
-      }
+      },
     },
     sum: {
       type: GraphQLFloat,
       description: "The sum of the items in the result set.",
       resolve: ({ source, where }) => {
-        return source.getItems({ where }).then(items => {
-          const values = items.map(item => Number(item.amount));
+        return source.getItems({ where }).then((items) => {
+          const values = items.map((item) => Number(item.amount));
           return toDecimal(sum(values));
         });
-      }
+      },
     },
     avg: {
       type: GraphQLFloat,
       description: "The mean of the items in the result set.",
       resolve: ({ source, where }) => {
-        return source.getItems({ where }).then(items => {
-          const values = items.map(item => Number(item.amount));
+        return source.getItems({ where }).then((items) => {
+          const values = items.map((item) => Number(item.amount));
           return toDecimal(avg(values));
         });
-      }
+      },
     },
     median: {
       type: GraphQLFloat,
       description: "The median of the items in the result set.",
       resolve: ({ source, where }) => {
-        return source.getItems({ where }).then(items => {
-          const values = items.map(item => Number(item.amount));
+        return source.getItems({ where }).then((items) => {
+          const values = items.map((item) => Number(item.amount));
           return items.length ? toDecimal(median(values)) : 0;
         });
-      }
-    }
-  }
+      },
+    },
+  },
 });
 
 export const userTagsConnection = createConnection({
@@ -132,34 +132,34 @@ export const userTagsConnection = createConnection({
   orderBy: new GraphQLEnumType({
     name: "UserTagsOrderBy",
     values: {
-      NAME: { value: ["name", "ASC"] }
-    }
+      NAME: { value: ["name", "ASC"] },
+    },
   }),
   connectionFields: {
     count: {
       type: GraphQLInt,
       resolve: ({ source }) => {
         return source.countTags();
-      }
-    }
+      },
+    },
   },
   edgeFields: {
     sumItems: {
       type: GraphQLFloat,
       resolve: ({ node, sourceArgs }) => {
         const where = whereDates(sourceArgs);
-        return node.getItems({ where }).then(items => {
-          const values = items.map(item => Number(item.amount));
+        return node.getItems({ where }).then((items) => {
+          const values = items.map((item) => Number(item.amount));
           return toDecimal(sum(values));
         });
-      }
+      },
     },
     countItems: {
       type: GraphQLInt,
       resolve: ({ node, sourceArgs }) => {
         const where = whereDates(sourceArgs);
         return node.countItems({ where });
-      }
-    }
-  }
+      },
+    },
+  },
 });
