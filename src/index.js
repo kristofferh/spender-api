@@ -11,7 +11,7 @@ import sgMail from "@sendgrid/mail";
 import errors from "./services/error";
 import models from "./models";
 import schema from "./schema";
-import { putAssetUrl, getAssetUrl } from "./services/aws";
+import { getAssetUrl } from "./services/aws";
 import { auth } from "./services/auth";
 
 // Load .env variables
