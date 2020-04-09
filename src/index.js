@@ -11,9 +11,12 @@ import sgMail from "@sendgrid/mail";
 import errors from "./services/error";
 import models from "./models";
 import schema from "./schema";
+import { getAssetUrl } from "./services/aws";
+import { auth } from "./services/auth";
 
 // Load .env variables
 config();
+
 sgMail.setApiKey(process.env.SG);
 
 // Use environment defined port or 3000
@@ -55,12 +58,27 @@ server
     res.status(200).send("ok").end();
   });
 
-// Invalid jwt token.
-server.use((err, req, res, next) => {
-  if (err.name === "UnauthorizedError") {
-    res.status(401).send("Invalid token.");
-  } else {
-    next();
+server.get("/favicon.ico", (req, res) => res.sendStatus(204));
+
+server.get("/asset", async (req, res, next) => {
+  try {
+    const { key } = req.query;
+    const id = auth(req);
+    const url = await getAssetUrl(id, key);
+    res.send(url);
+  } catch (err) {
+    next(err);
+  }
+});
+
+server.put("/asset", async (req, res, next) => {
+  try {
+    const { ContentType = "image/*" } = req.query;
+    const id = auth(req);
+    const url = await getAssetUrl(id, ContentType);
+    res.send({ url });
+  } catch (err) {
+    next(err);
   }
 });
 
@@ -85,6 +103,15 @@ server.use(
     },
   }))
 );
+
+// Invalid jwt token.
+server.use((err, req, res, next) => {
+  if (err.name === "UnauthorizedError") {
+    res.status(err.code).send(err.message);
+  } else {
+    next();
+  }
+});
 
 // Create tables
 models.sequelize

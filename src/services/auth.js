@@ -10,6 +10,5 @@ export const auth = ({ headers }) => {
     // @todo: add scope.
     return id;
   }
-
   throw new UnauthorizedError("Not authenticated");
 };
