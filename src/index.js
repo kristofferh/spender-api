@@ -90,7 +90,6 @@ server.use(
     graphiql: process.env.NODE_ENV === "development",
     pretty: true,
     customFormatErrorFn(err) {
-      console.log("hmm", req);
       errors.report(err.originalError);
       if (err.originalError && err.originalError.code) {
         res.status(err.originalError.code);
