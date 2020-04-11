@@ -2,6 +2,18 @@
 
 exports[`Item Type Should match snapshot 1`] = `
 Object {
+  "avatar": Object {
+    "args": Array [],
+    "astNode": undefined,
+    "deprecationReason": undefined,
+    "description": undefined,
+    "extensions": undefined,
+    "isDeprecated": false,
+    "name": "avatar",
+    "resolve": undefined,
+    "subscribe": undefined,
+    "type": "String",
+  },
   "email": Object {
     "args": Array [],
     "astNode": undefined,
@@ -10,6 +22,18 @@ Object {
     "extensions": undefined,
     "isDeprecated": false,
     "name": "email",
+    "resolve": undefined,
+    "subscribe": undefined,
+    "type": "String",
+  },
+  "firstName": Object {
+    "args": Array [],
+    "astNode": undefined,
+    "deprecationReason": undefined,
+    "description": undefined,
+    "extensions": undefined,
+    "isDeprecated": false,
+    "name": "firstName",
     "resolve": undefined,
     "subscribe": undefined,
     "type": "String",
@@ -123,6 +147,18 @@ Object {
     "resolve": [Function],
     "subscribe": undefined,
     "type": "UserItemsConnection",
+  },
+  "lastName": Object {
+    "args": Array [],
+    "astNode": undefined,
+    "deprecationReason": undefined,
+    "description": undefined,
+    "extensions": undefined,
+    "isDeprecated": false,
+    "name": "lastName",
+    "resolve": undefined,
+    "subscribe": undefined,
+    "type": "String",
   },
   "tags": Object {
     "args": Array [
