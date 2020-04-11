@@ -129,7 +129,7 @@ export async function create({ date, amount, description, tags }, ctx) {
   });
 }
 
-// Create item
+// Edit item
 export async function edit({ id, date, amount, description, tags }, ctx) {
   const uid = auth(ctx);
   await models.Item.update(

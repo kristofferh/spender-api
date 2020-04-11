@@ -1,21 +1,33 @@
-import { GraphQLString, GraphQLInt, GraphQLNonNull } from "graphql";
+import { GraphQLInt, GraphQLString, GraphQLNonNull } from "graphql";
+import { mutationWithClientMutationId } from "graphql-relay";
 
 import UserType from "./type";
-import { authenticate, create, remove } from "./resolvers";
+import { edit, create, remove } from "./resolvers";
 
-// Log in
-export const login = {
-  type: UserType,
-  args: {
-    email: {
-      type: new GraphQLNonNull(GraphQLString),
+// Edit user.
+export const editUser = mutationWithClientMutationId({
+  name: "EditUser",
+  inputFields: {
+    avatar: {
+      type: GraphQLString,
     },
-    password: {
-      type: new GraphQLNonNull(GraphQLString),
+    firstName: {
+      type: GraphQLString,
+    },
+    lastName: {
+      type: GraphQLString,
     },
   },
-  resolve: authenticate,
-};
+  outputFields: {
+    user: {
+      type: UserType,
+      resolve: (payload) => payload,
+    },
+  },
+  mutateAndGetPayload: (input, context) => {
+    return edit(input, context);
+  },
+});
 
 // Create user
 export const addUser = {

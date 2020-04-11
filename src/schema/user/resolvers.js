@@ -25,6 +25,28 @@ export async function getAll() {
   return await models.User.findAll();
 }
 
+// Edit User
+export async function edit({ avatar, firstName, lastName }, ctx) {
+  const id = auth(ctx);
+  // Update can return a value, but only for Postgres, and it'll
+  // be the second array value, so we need to destructure.
+  const [, [User]] = await models.User.update(
+    {
+      avatar,
+      firstName,
+      lastName,
+    },
+    {
+      where: {
+        id,
+      },
+      returning: true, // Postgres only
+    }
+  );
+
+  return User;
+}
+
 // Delete user
 export async function remove(_, __, ctx) {
   const id = auth(ctx);
