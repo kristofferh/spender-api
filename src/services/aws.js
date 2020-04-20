@@ -1,6 +1,5 @@
 import AWS from "aws-sdk";
 import { config } from "dotenv";
-import { v4 as uuidv4 } from "uuid";
 
 // Load .env variables
 config();
@@ -18,8 +17,7 @@ const s3 = new AWS.S3();
 // Retrieving the bucket name from env variable
 const bucket = process.env.S3_BUCKET;
 
-export async function putAssetUrl(userId, contentType) {
-  const key = `${userId}/${uuidv4()}`;
+export async function putAssetUrl(key, contentType) {
   return await s3.getSignedUrlPromise("putObject", {
     Bucket: bucket,
     Key: key,
@@ -28,10 +26,10 @@ export async function putAssetUrl(userId, contentType) {
   });
 }
 
-export async function getAssetUrl(userId, key) {
+export async function getAssetUrl(key) {
   return await s3.getSignedUrlPromise("getObject", {
     Bucket: bucket,
-    Key: `${userId}/${key}`,
+    Key: key,
     Expires: 300,
   });
 }

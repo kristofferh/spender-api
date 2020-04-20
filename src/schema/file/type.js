@@ -9,6 +9,9 @@ const FileType = new GraphQLObjectType({
       url: {
         type: GraphQLString,
       },
+      key: {
+        type: GraphQLString,
+      },
     };
   },
 });

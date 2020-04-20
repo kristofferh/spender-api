@@ -9,6 +9,9 @@ export const requestUploadURL = {
     contentType: {
       type: GraphQLString,
     },
+    file: {
+      type: GraphQLString,
+    },
   },
   resolve: requestSignedAssetURL,
 };
