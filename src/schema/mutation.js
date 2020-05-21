@@ -1,5 +1,5 @@
 import { GraphQLObjectType } from "graphql";
-
+import * as file from "./file/mutations";
 import * as item from "./item/mutations";
 import * as user from "./user/mutations";
 import * as tag from "./tag/mutations";
@@ -15,6 +15,7 @@ const mutation = new GraphQLObjectType({
     ...user,
     ...tag,
     ...usertoken,
+    ...file,
   }),
 });
 

@@ -11,8 +11,6 @@ import sgMail from "@sendgrid/mail";
 import errors from "./services/error";
 import models from "./models";
 import schema from "./schema";
-import { getAssetUrl } from "./services/aws";
-import { auth } from "./services/auth";
 
 // Load .env variables
 config();
@@ -59,28 +57,6 @@ server
   });
 
 server.get("/favicon.ico", (req, res) => res.sendStatus(204));
-
-server.get("/asset", async (req, res, next) => {
-  try {
-    const { key } = req.query;
-    const id = auth(req);
-    const url = await getAssetUrl(id, key);
-    res.send(url);
-  } catch (err) {
-    next(err);
-  }
-});
-
-server.put("/asset", async (req, res, next) => {
-  try {
-    const { ContentType = "image/*" } = req.query;
-    const id = auth(req);
-    const url = await getAssetUrl(id, ContentType);
-    res.send({ url });
-  } catch (err) {
-    next(err);
-  }
-});
 
 // API
 server.use(
