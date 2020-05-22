@@ -49,7 +49,7 @@
   },
   "dependencies": {
     "@sendgrid/mail": "^7.0.0",
-    "aws-sdk": "^2.653.0",
+    "aws-sdk": "^2.681.0",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.4",
