@@ -40,7 +40,7 @@ export async function edit({ avatar, firstName, lastName }, ctx) {
       where: {
         id,
       },
-      returning: true, // Postgres only
+      returning: true, // Postgres only. For now.
     }
   );
 
