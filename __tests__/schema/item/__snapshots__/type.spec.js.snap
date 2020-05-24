@@ -14,6 +14,18 @@ Object {
     "subscribe": undefined,
     "type": "String",
   },
+  "avatarUrl": Object {
+    "args": Array [],
+    "astNode": undefined,
+    "deprecationReason": undefined,
+    "description": undefined,
+    "extensions": undefined,
+    "isDeprecated": false,
+    "name": "avatarUrl",
+    "resolve": undefined,
+    "subscribe": undefined,
+    "type": "String",
+  },
   "email": Object {
     "args": Array [],
     "astNode": undefined,

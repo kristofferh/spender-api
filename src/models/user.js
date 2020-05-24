@@ -1,3 +1,5 @@
+import { getAvatarPublicUrl } from "../services/aws";
+
 const User = (sequelize, DataTypes) => {
   const User = sequelize.define("User", {
     email: {
@@ -25,6 +27,12 @@ const User = (sequelize, DataTypes) => {
     },
     avatar: {
       type: DataTypes.STRING,
+    },
+    avatarUrl: {
+      type: new DataTypes.VIRTUAL(DataTypes.STRING, ["avatar"]),
+      get: function () {
+        return getAvatarPublicUrl(this.avatar);
+      },
     },
     firstName: {
       type: DataTypes.STRING,

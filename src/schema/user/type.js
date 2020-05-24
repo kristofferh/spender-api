@@ -21,6 +21,9 @@ const UserType = new GraphQLObjectType({
       avatar: {
         type: GraphQLString,
       },
+      avatarUrl: {
+        type: GraphQLString,
+      },
       firstName: {
         type: GraphQLString,
       },
