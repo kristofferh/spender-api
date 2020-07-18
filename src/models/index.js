@@ -22,14 +22,16 @@ if (dbConfig.use_env_variable) {
 }
 
 // Attempt to connect
-connection
-  .authenticate()
-  .then(() => {
-    console.info("INFO - Database connected.");
-  })
-  .catch((err) => {
-    console.error("ERROR - Unable to connect to the database:", err);
-  });
+if (env !== "test") {
+  connection
+    .authenticate()
+    .then(() => {
+      console.info("INFO - Database connected.");
+    })
+    .catch((err) => {
+      console.error("ERROR - Unable to connect to the database:", err);
+    });
+}
 
 // Register models.
 fs.readdirSync(__dirname)
