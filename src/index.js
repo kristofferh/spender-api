@@ -42,6 +42,7 @@ server.use(
   jwt({
     secret: process.env.SECRET,
     credentialsRequired: false,
+    algorithms: ["HS256"],
   })
 );
 
