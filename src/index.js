@@ -4,7 +4,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
-import graphqlHTTP from "express-graphql";
+import { graphqlHTTP } from "express-graphql";
 import jwt from "express-jwt";
 import sgMail from "@sendgrid/mail";
 
