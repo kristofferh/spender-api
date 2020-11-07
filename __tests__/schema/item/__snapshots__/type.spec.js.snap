@@ -55,6 +55,7 @@ Object {
       Object {
         "astNode": undefined,
         "defaultValue": undefined,
+        "deprecationReason": undefined,
         "description": undefined,
         "extensions": undefined,
         "name": "after",
@@ -63,6 +64,7 @@ Object {
       Object {
         "astNode": undefined,
         "defaultValue": undefined,
+        "deprecationReason": undefined,
         "description": undefined,
         "extensions": undefined,
         "name": "first",
@@ -71,6 +73,7 @@ Object {
       Object {
         "astNode": undefined,
         "defaultValue": undefined,
+        "deprecationReason": undefined,
         "description": undefined,
         "extensions": undefined,
         "name": "before",
@@ -79,6 +82,7 @@ Object {
       Object {
         "astNode": undefined,
         "defaultValue": undefined,
+        "deprecationReason": undefined,
         "description": undefined,
         "extensions": undefined,
         "name": "last",
@@ -87,6 +91,7 @@ Object {
       Object {
         "astNode": undefined,
         "defaultValue": undefined,
+        "deprecationReason": undefined,
         "description": undefined,
         "extensions": undefined,
         "name": "orderBy",
