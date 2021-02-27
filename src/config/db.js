@@ -26,5 +26,8 @@ module.exports = {
     dialect: "postgres",
     logging: null,
     timezone: "utc",
+    dialectOptions: {
+      ssl: true,
+    },
   },
 };
