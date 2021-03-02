@@ -36,6 +36,12 @@ Run `yarn` to get dependencies.
 
 Create a new `.env` file. Get the contents from 1Password.
 
+```
+yarn dev
+```
+
+If all goes well, this should start up the API server.
+
 ## Usage
 
 In Dev:
