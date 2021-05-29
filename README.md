@@ -63,3 +63,77 @@ Test:
 ```
 yarn test
 ```
+
+## Running local queries
+
+Start the server
+
+```
+yarn dev
+```
+
+Then in the browser go to http://localhost:3000. This will run GraphQL. Some (most) queries and mutations require authentication.
+
+One way to solve that is to
+
+1. Request a user token
+
+```
+  mutation requestToken($delivery:String!, $deliveryType:String) {
+    requestNewToken(delivery: $delivery, deliveryType: $deliveryType) {
+      success
+    }
+  }
+```
+
+Query variables:
+
+```
+  {
+    "delivery": "kris.hedstrom@gmail.com",
+    "deliveryType": "email"
+  }
+```
+
+2. Check email and copy the token
+3. Verify the token
+
+```
+    mutation verifyToken($delivery:String!, $token:String!) {
+      verifyToken(delivery: $delivery, token: $token) {
+        token
+      }
+    }
+```
+
+Query variables:
+
+```
+  {
+    "delivery": "kris.hedstrom@gmail.com",
+    "token": <TOKEN>
+  }
+```
+
+4. Copy the token returned
+5. Add it to ModHeader extension (using `Authorization`, `Bearer <Token>`)
+6. You should now be able to query and mutate protected routes
+
+Example
+
+```
+query User {
+  user {
+    id
+    items {
+      edges {
+        node {
+          id
+          date
+          description
+        }
+      }
+    }
+  }
+}
+```
