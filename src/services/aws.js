@@ -1,37 +1,42 @@
-import AWS from "aws-sdk";
 import { config } from "dotenv";
 import btoa from "btoa";
+import { S3, PutObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 // Load .env variables
 config();
 
-// Configuring AWS
-AWS.config = new AWS.Config({
-  accessKeyId: process.env.AWS_KEY,
-  secretAccessKey: process.env.AWS_SECRET,
+// Create an Amazon S3 client object.
+const s3Client = new S3({
+  credentials: {
+    accessKeyId: process.env.AWS_KEY,
+    secretAccessKey: process.env.AWS_SECRET,
+  },
   region: process.env.S3_BUCKET_REGION,
 });
 
-// Creating a S3 instance
-const s3 = new AWS.S3();
-
-// Retrieving the bucket name from env variable
 const bucket = process.env.S3_BUCKET;
 const cloudFrontUrl = process.env.CLOUDFRONT_URL;
+
 export async function putAssetUrl(key, contentType) {
-  return await s3.getSignedUrlPromise("putObject", {
+  const putObjectCommand = new PutObjectCommand({
     Bucket: bucket,
     Key: key,
-    ContentType: contentType,
-    Expires: 120,
+  });
+
+  return await getSignedUrl(s3Client, putObjectCommand, {
+    contentType,
+    expiresIn: 120,
   });
 }
 
 export async function getAssetUrl(key) {
-  return await s3.getSignedUrlPromise("getObject", {
+  const getObjectCommand = new GetObjectCommand({
     Bucket: bucket,
     Key: key,
-    Expires: 300,
+  });
+  return await getSignedUrl(s3Client, getObjectCommand, {
+    expiresIn: 300,
   });
 }
 
